@@ -1,37 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% block content %}
 <!-- ==================== HERO SLIDER ==================== -->
 <section class="hero-section">
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            {% for i in offer %}
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{forloop.counter0}}"
+                class="{% if forloop.first %} active {% endif %}"></button>
+            {% endfor %}
         </div>
 
         <div class="carousel-inner">
             <!-- Slide 1 -->
-            <div class="carousel-item active">
+            {% for i in offer %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
                 <div class="hero-slide slide-1">
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-lg-6 animate-up">
-                                <span class="hero-label">New Arrival 2025</span>
-                                <h1>Power Meets<br><em>Performance</em></h1>
-                                <p>Discover next-generation laptops engineered for creators, gamers, and professionals who demand more.</p>
+                                <span class="hero-label">New Arrival 2026</span>
+                                <h1>{{i.title}}</h1>
+                                <p>{{i.desc}}</p>
                                 <div class="d-flex gap-3 flex-wrap">
-                                    <a href="#" class="btn-primary-custom">Shop Now <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="btn-primary-custom">Shop Now <i
+                                            class="fas fa-arrow-right"></i></a>
                                     <a href="#" class="btn-outline-custom">View All</a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="hero-image-wrap">
-                                    <img src="{% static 'images/product-details/legion2.png' %}" alt="Gaming Laptop">
+                                    <img src="{{i.image.url}}" alt="Gaming Laptop">
                                     <div class="hero-badge badge-price">
-                                        <span class="big">$1,020</span>
+                                        <span class="big">Rs. {{i.price}}</span>
                                         Starting from
                                     </div>
                                     <div class="hero-badge badge-rating">
@@ -44,63 +45,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Slide 2 -->
-            <div class="carousel-item">
-                <div class="hero-slide slide-2">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6">
-                                <span class="hero-label">Limited Edition</span>
-                                <h1>Engineered for<br><em>Creators</em></h1>
-                                <p>Razor-sharp displays, blazing fast processors, and stunning aesthetics. Designed to inspire.</p>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    <a href="#" class="btn-primary-custom">Explore Now <i class="fas fa-arrow-right"></i></a>
-                                    <a href="#" class="btn-outline-custom">Learn More</a>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="hero-image-wrap">
-                                    <img src="{% static 'images/product-details/asus.png' %}" alt="MSI Laptop">
-                                    <div class="hero-badge badge-price">
-                                        <span class="big">$2,245</span>
-                                        From
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-item">
-                <div class="hero-slide slide-3">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6">
-                                <span class="hero-label">Best Seller</span>
-                                <h1>Style Meets<br><em>Substance</em></h1>
-                                <p>Premium fashion and electronics curated for the discerning shopper. Free shipping on all orders.</p>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    <a href="#" class="btn-primary-custom">Shop Now <i class="fas fa-arrow-right"></i></a>
-                                    <a href="#" class="btn-outline-custom">View Deals</a>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="hero-image-wrap">
-                                    <img src="{% static 'images/product-details/acer2.png' %}" alt="Product">
-                                    <div class="hero-badge badge-price">
-                                        <span class="big">30% Off</span>
-                                        Today Only
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+
 
         <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
@@ -178,32 +125,45 @@
                         <div class="accordion" id="catAccordion">
                             <div class="accordion-item">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#catSports">
-                                        <i class="fas fa-running me-2" style="color:var(--accent);font-size:13px"></i> Sportswear
-                                        <span class="ms-auto badge" style="background:var(--accent-light);color:var(--accent);font-size:10px;font-weight:600;border-radius:50px;padding:3px 8px;">5</span>
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#catSports">
+                                        <i class="fas fa-running me-2" style="color:var(--accent);font-size:13px"></i>
+                                        Sportswear
+                                        <span class="ms-auto badge"
+                                            style="background:var(--accent-light);color:var(--accent);font-size:10px;font-weight:600;border-radius:50px;padding:3px 8px;">5</span>
                                     </button>
                                 </h5>
-                                <div id="catSports" class="accordion-collapse collapse show" data-bs-parent="#catAccordion">
+                                <div id="catSports" class="accordion-collapse collapse show"
+                                    data-bs-parent="#catAccordion">
                                     <div class="accordion-body px-0 py-1">
-                                        <a href="#" class="sub-cat-link"><span>Nike</span><span class="count">(42)</span></a>
-                                        <a href="#" class="sub-cat-link"><span>Under Armour</span><span class="count">(36)</span></a>
-                                        <a href="#" class="sub-cat-link"><span>Adidas</span><span class="count">(28)</span></a>
-                                        <a href="#" class="sub-cat-link"><span>Puma</span><span class="count">(19)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Nike</span><span
+                                                class="count">(42)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Under Armour</span><span
+                                                class="count">(36)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Adidas</span><span
+                                                class="count">(28)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Puma</span><span
+                                                class="count">(19)</span></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item" style="margin-top:4px">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catMens">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#catMens">
                                         <i class="fas fa-male me-2" style="color:var(--accent);font-size:13px"></i> Mens
-                                        <span class="ms-auto badge" style="background:var(--accent-light);color:var(--accent);font-size:10px;font-weight:600;border-radius:50px;padding:3px 8px;">10</span>
+                                        <span class="ms-auto badge"
+                                            style="background:var(--accent-light);color:var(--accent);font-size:10px;font-weight:600;border-radius:50px;padding:3px 8px;">10</span>
                                     </button>
                                 </h5>
                                 <div id="catMens" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
                                     <div class="accordion-body px-0 py-1">
-                                        <a href="#" class="sub-cat-link"><span>Fendi</span><span class="count">(24)</span></a>
-                                        <a href="#" class="sub-cat-link"><span>Gucci</span><span class="count">(18)</span></a>
-                                        <a href="#" class="sub-cat-link"><span>Versace</span><span class="count">(12)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Fendi</span><span
+                                                class="count">(24)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Gucci</span><span
+                                                class="count">(18)</span></a>
+                                        <a href="#" class="sub-cat-link"><span>Versace</span><span
+                                                class="count">(12)</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -285,7 +245,8 @@
                             </div>
                             <div class="product-body">
                                 <div class="brand-tag">Lenovo</div>
-                                <p class="product-title">Legion 5 Gaming Laptop 15.6" AMD Ryzen 7 GTX 1660Ti 16GB RAM</p>
+                                <p class="product-title">Legion 5 Gaming Laptop 15.6" AMD Ryzen 7 GTX 1660Ti 16GB RAM
+                                </p>
                             </div>
                             <div class="product-footer">
                                 <div class="product-price">$1,020 <span class="original">$1,299</span></div>
@@ -353,7 +314,8 @@
                             </div>
                             <div class="product-body">
                                 <div class="brand-tag">Iphone 13</div>
-                                <p class="product-title">Blade 15 Base Gaming Laptop Core i7 GTX 1660Ti 16GB CNC Aluminum</p>
+                                <p class="product-title">Blade 15 Base Gaming Laptop Core i7 GTX 1660Ti 16GB CNC
+                                    Aluminum</p>
                             </div>
                             <div class="product-footer">
                                 <div class="product-price">$2,345 <span class="original">$2,599</span></div>
@@ -398,7 +360,8 @@
                             </div>
                             <div class="product-body">
                                 <div class="brand-tag">Dell</div>
-                                <p class="product-title">XPS 15 OLED Laptop Core i9 RTX 3050Ti 32GB 1TB Platinum Silver</p>
+                                <p class="product-title">XPS 15 OLED Laptop Core i9 RTX 3050Ti 32GB 1TB Platinum Silver
+                                </p>
                             </div>
                             <div class="product-footer">
                                 <div class="product-price">$1,799 <span class="original">$2,099</span></div>
@@ -421,7 +384,8 @@
             <div class="col-lg-6">
                 <p class="section-tag" style="color:rgba(200,169,110,0.7)">Flash Sale</p>
                 <h2>Up to <span>40% Off</span><br>Gaming Essentials</h2>
-                <p>Limited time offer. Don't miss out on our biggest sale of the year on premium gaming laptops and accessories.</p>
+                <p>Limited time offer. Don't miss out on our biggest sale of the year on premium gaming laptops and
+                    accessories.</p>
                 <div class="countdown">
                     <div class="count-item">
                         <span class="count-num" id="cnt-h">08</span>
@@ -441,7 +405,8 @@
                 </a>
             </div>
             <div class="col-lg-6 d-none d-lg-flex justify-content-end">
-                <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Sale" style="max-width:380px;filter:drop-shadow(0 20px 60px rgba(0,0,0,0.4));transform:rotate(-3deg)">
+                <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Sale"
+                    style="max-width:380px;filter:drop-shadow(0 20px 60px rgba(0,0,0,0.4));transform:rotate(-3deg)">
             </div>
         </div>
     </div>
@@ -460,9 +425,11 @@
                 </div>
 
                 <ul class="nav custom-tabs mb-4" id="shopTabs">
-                    <li class="nav-item"><a class="nav-link active" href="#tab-tshirt" data-bs-toggle="tab">T-Shirts</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#tab-tshirt" data-bs-toggle="tab">T-Shirts</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#tab-blazers" data-bs-toggle="tab">Blazers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-sunglass" data-bs-toggle="tab">Sunglasses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-sunglass" data-bs-toggle="tab">Sunglasses</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#tab-kids" data-bs-toggle="tab">Kids</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tab-polo" data-bs-toggle="tab">Polo Shirts</a></li>
                 </ul>
@@ -472,34 +439,42 @@
                         <div class="row g-3">
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80" alt="T-Shirt">
+                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
+                                        alt="T-Shirt">
                                     <div class="price">$56</div>
                                     <div class="name">Easy Polo Black Edition</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300&q=80" alt="T-Shirt">
+                                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300&q=80"
+                                        alt="T-Shirt">
                                     <div class="price">$48</div>
                                     <div class="name">Classic White Crewneck</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&q=80" alt="T-Shirt">
+                                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&q=80"
+                                        alt="T-Shirt">
                                     <div class="price">$64</div>
                                     <div class="name">Premium Stripe Tee</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80" alt="T-Shirt">
+                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
+                                        alt="T-Shirt">
                                     <div class="price">$72</div>
                                     <div class="name">Limited Edition Graphic</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -508,18 +483,22 @@
                         <div class="row g-3">
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&q=80" alt="Blazer">
+                                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&q=80"
+                                        alt="Blazer">
                                     <div class="price">$189</div>
                                     <div class="name">Slim Fit Navy Blazer</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c8a?w=300&q=80" alt="Blazer">
+                                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c8a?w=300&q=80"
+                                        alt="Blazer">
                                     <div class="price">$245</div>
                                     <div class="name">Classic Black Jacket</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -528,10 +507,12 @@
                         <div class="row g-3">
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=300&q=80" alt="Sunglasses">
+                                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=300&q=80"
+                                        alt="Sunglasses">
                                     <div class="price">$129</div>
                                     <div class="name">Aviator Polarized</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -543,10 +524,12 @@
                         <div class="row g-3">
                             <div class="col-6 col-md-3">
                                 <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1598522325074-042db73aa4e6?w=300&q=80" alt="Polo">
+                                    <img src="https://images.unsplash.com/photo-1598522325074-042db73aa4e6?w=300&q=80"
+                                        alt="Polo">
                                     <div class="price">$89</div>
                                     <div class="name">Classic Polo Navy</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
+                                        Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -568,8 +551,10 @@
                 <div class="section-line"></div>
             </div>
             <div class="rec-carousel-nav">
-                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="next"><i class="fas fa-chevron-right"></i></button>
+                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="prev"><i
+                        class="fas fa-chevron-left"></i></button>
+                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="next"><i
+                        class="fas fa-chevron-right"></i></button>
             </div>
         </div>
 
@@ -584,7 +569,8 @@
                                         <button class="action-btn"><i class="fas fa-heart"></i></button>
                                         <button class="action-btn"><i class="fas fa-eye"></i></button>
                                     </div>
-                                    <img src="https://m.media-amazon.com/images/I/81w+3k4U8PL._AC_SL1500_.jpg" alt="Rec">
+                                    <img src="https://m.media-amazon.com/images/I/81w+3k4U8PL._AC_SL1500_.jpg"
+                                        alt="Rec">
                                 </div>
                                 <div class="product-body">
                                     <div class="brand-tag">Lenovo</div>
@@ -603,7 +589,8 @@
                                         <button class="action-btn"><i class="fas fa-heart"></i></button>
                                         <button class="action-btn"><i class="fas fa-eye"></i></button>
                                     </div>
-                                    <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Rec">
+                                    <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg"
+                                        alt="Rec">
                                 </div>
                                 <div class="product-body">
                                     <div class="brand-tag">MSI</div>
@@ -622,7 +609,8 @@
                                         <button class="action-btn"><i class="fas fa-heart"></i></button>
                                         <button class="action-btn"><i class="fas fa-eye"></i></button>
                                     </div>
-                                    <img src="https://m.media-amazon.com/images/I/81w+3k4U8PL._AC_SL1500_.jpg" alt="Rec">
+                                    <img src="https://m.media-amazon.com/images/I/81w+3k4U8PL._AC_SL1500_.jpg"
+                                        alt="Rec">
                                 </div>
                                 <div class="product-body">
                                     <div class="brand-tag">Asus</div>
@@ -641,7 +629,8 @@
                                         <button class="action-btn"><i class="fas fa-heart"></i></button>
                                         <button class="action-btn"><i class="fas fa-eye"></i></button>
                                     </div>
-                                    <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Rec">
+                                    <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg"
+                                        alt="Rec">
                                 </div>
                                 <div class="product-body">
                                     <div class="brand-tag">Razer</div>
@@ -705,5 +694,3 @@
     </div>
 </section>
 {% endblock content %}
-
-

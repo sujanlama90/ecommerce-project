@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
 from decouple import config
+import cloudinary
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 EXTERNAL_APPS =[
+    'cloudinary',
+  'cloudinary_storage',
     'main',
     'account',
 ]
@@ -63,6 +67,7 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # customizing auth
 AUTH_USER_MODEL='account.CustomUser'
+
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
@@ -125,3 +130,22 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+#cloudinary
+CLOUDINARY_STORAGE = {
+'CLOUD_NAME': config('cloud_name'),
+'API_KEY': config('api_key'),
+'API_SECRET': config('api_secret'),
+'SECURE': config('secure')
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+cloudinary.config(
+cloud_name=config('cloud_name'),
+api_key=config('api_key'),
+api_secret=config('api_secret'),
+secure=config('secure')
+)
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024

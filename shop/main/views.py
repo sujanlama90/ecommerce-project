@@ -1,8 +1,12 @@
 from django.shortcuts import render
-
+from .models import OfferProduct
 # Create your views here.
 def index(request):
-    return render(request,'main/index.html')
+    offer = OfferProduct.objects.filter(is_available=True)
+    context={
+        'offer' :offer
+    }
+    return render(request,'main/index.html',context)
 
 
 def cart(request):
