@@ -1,7 +1,7 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django_ckeditor_5.fields import CKEditor5Field
 
-# Create your models here.
 class OfferProduct(models.Model):
     title =models.CharField( max_length=200)
     desc = models.TextField()
@@ -20,26 +20,31 @@ class Category(models.Model):
             return self.title
 
 class SubCategory(models.Model):
-     title=models.CharField(max_length=200)
-     category=models.ForeignKey(Category, on_delete=models.CASCADE)
-     def __str__(self):
-             return self.title
+    title=models.CharField(max_length=200)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.title} [Cat:{self.category.id}]"
 
 class Product(models.Model):
       name=models.CharField(max_length=200)
       Category=models.ForeignKey(Category, on_delete=models.CASCADE)
       subcategory=models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-      desc=models.TextField()
+      desc=  CKEditor5Field('Text', config_name='extends')
+      image = CloudinaryField('image',blank=True,null=True) 
       stock = models.PositiveBigIntegerField()
       mark_price = models.DecimalField(max_digits=8,decimal_places=2)
       discount_percent = models.DecimalField(max_digits=4,decimal_places=2)
       price = models.DecimalField(max_digits=8,decimal_places=2,editable=False)
       created_at = models.DateTimeField(auto_now_add=True)
       update_at = models.DateTimeField(auto_now_add=True)
-      
 
       def save(self,*args, **kwargs):
             self.name = self.name.capitalize()
             self.price = self.mark_price*(1-self.discount_percent/100)
             super().save(*args,**kwargs)
             
+
+class ImageProduct(models.Model):
+      image = CloudinaryField('image')
+      product = models.ForeignKey(Product,on_delete=models.CASCADE)
