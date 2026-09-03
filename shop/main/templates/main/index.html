@@ -1,38 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock css %}
 {% block content %}
+
 <!-- ==================== HERO SLIDER ==================== -->
 <section class="hero-section">
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             {% for i in offer %}
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{forloop.counter0}}"
-                class="{% if forloop.first %} active {% endif %}"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                class="{% if forloop.first %}active{% endif %}"></button>
             {% endfor %}
         </div>
-
         <div class="carousel-inner">
-            <!-- Slide 1 -->
             {% for i in offer %}
-            <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                <div class="hero-slide slide-1">
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="hero-slide">
                     <div class="container">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center min-vh-75">
                             <div class="col-lg-6 animate-up">
                                 <span class="hero-label">New Arrival 2026</span>
-                                <h1>{{i.title}}</h1>
-                                <p>{{i.desc}}</p>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    <a href="#" class="btn-primary-custom">Shop Now <i
-                                            class="fas fa-arrow-right"></i></a>
+                                <h1 class="hero-title">{{ i.title }}</h1>
+                                <p class="hero-desc">{{ i.desc }}</p>
+                                <div class="d-flex gap-3 flex-wrap mt-4">
+                                    <a href="#" class="btn-primary-custom">
+                                        Shop Now <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
                                     <a href="#" class="btn-outline-custom">View All</a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="hero-image-wrap">
-                                    <img src="{{i.image.url}}" alt="Gaming Laptop">
+                                    <img src="{{ i.image.url }}" alt="{{ i.title }}" class="img-fluid">
                                     <div class="hero-badge badge-price">
-                                        <span class="big">Rs. {{i.price}}</span>
+                                        <span class="big">Rs. {{ i.price }}</span>
                                         Starting from
                                     </div>
                                     <div class="hero-badge badge-rating">
@@ -48,7 +51,6 @@
             {% endfor %}
         </div>
 
-
         <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
@@ -58,9 +60,8 @@
     </div>
 </section>
 
-
 <!-- ==================== CATEGORIES ==================== -->
-<section class="categories-strip">
+<section class="categories-strip py-4">
     <div class="container">
         <div class="row g-3">
             <div class="col-6 col-md-4 col-lg-2">
@@ -109,8 +110,7 @@
     </div>
 </section>
 
-
-<!-- ==================== FEATURES ITEMS + SIDEBAR ==================== -->
+<!-- ==================== FEATURED + SIDEBAR ==================== -->
 <section class="section-py">
     <div class="container">
         <div class="row g-4">
@@ -124,30 +124,26 @@
                         <h4 class="widget-title">Categories</h4>
                         <div class="accordion" id="catAccordion">
                             {% for i in category %}
-
                             <div class="accordion-item">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#{{i.id}}">
-                                        {{i.title}}
-                                        <span class="ms-auto badge"
-                                            style="background:var(--accent-light);color:var(--accent);font-size:10px;font-weight:600;border-radius:50px;padding:3px 8px;">5</span>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#{{ i.id }}">
+                                        {{ i.title }}
+                                        <span class="ms-auto badge">5</span>
                                     </button>
                                 </h5>
-                                <div id="{{i.id}}" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
+                                <div id="{{ i.id }}" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
                                     <div class="accordion-body px-0 py-1">
                                         {% for j in i.subcategory_set.all %}
-
-
-                                        <a href="#" class="sub-cat-link"><span>{{j.title}}</span><span
-                                                class="count">(42)</span></a>
-
+                                        <a href="#" class="sub-cat-link">
+                                            <span>{{ j.title }}</span>
+                                            <span class="count">(42)</span>
+                                        </a>
                                         {% endfor %}
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-
                         </div>
                     </div>
 
@@ -159,7 +155,7 @@
                                 <label>Min</label>
                                 <input type="number" value="0" placeholder="$0">
                             </div>
-                            <div style="color:var(--ink-muted);margin-top:20px;font-size:13px">—</div>
+                            <div class="price-sep">—</div>
                             <div class="price-input-group">
                                 <label>Max</label>
                                 <input type="number" value="3000" placeholder="$3000">
@@ -174,35 +170,34 @@
                         <div class="brand-check form-check">
                             <input class="form-check-input" type="checkbox" id="b1" checked>
                             <label class="form-check-label d-flex justify-content-between w-100" for="b1">
-                                <span>Asus</span><span style="font-size:12px;color:var(--ink-muted)">(50)</span>
+                                <span>Asus</span><span class="count">(50)</span>
                             </label>
                         </div>
                         <div class="brand-check form-check">
                             <input class="form-check-input" type="checkbox" id="b2" checked>
                             <label class="form-check-label d-flex justify-content-between w-100" for="b2">
-                                <span>Razer</span><span style="font-size:12px;color:var(--ink-muted)">(31)</span>
+                                <span>Razer</span><span class="count">(31)</span>
                             </label>
                         </div>
                         <div class="brand-check form-check">
                             <input class="form-check-input" type="checkbox" id="b3">
                             <label class="form-check-label d-flex justify-content-between w-100" for="b3">
-                                <span>Lenovo</span><span style="font-size:12px;color:var(--ink-muted)">(44)</span>
+                                <span>Lenovo</span><span class="count">(44)</span>
                             </label>
                         </div>
                         <div class="brand-check form-check">
                             <input class="form-check-input" type="checkbox" id="b4">
                             <label class="form-check-label d-flex justify-content-between w-100" for="b4">
-                                <span>MSI</span><span style="font-size:12px;color:var(--ink-muted)">(27)</span>
+                                <span>MSI</span><span class="count">(27)</span>
                             </label>
                         </div>
                     </div>
-
                 </aside>
             </div>
 
             <!-- Products Grid -->
             <div class="col-lg-9">
-                <div class="section-header d-flex justify-content-between align-items-end">
+                <div class="section-header d-flex justify-content-between align-items-end mb-4">
                     <div>
                         <p class="section-tag">Handpicked</p>
                         <h2 class="section-title">Featured Products</h2>
@@ -212,7 +207,7 @@
                 </div>
 
                 <div class="row g-3">
-                    <!-- Product 1 -->
+                    <!-- Product cards remain exactly the same structure -->
                     <div class="col-sm-6 col-xl-4">
                         <div class="product-card">
                             <div class="product-image-area">
@@ -352,21 +347,19 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
-
 
 <!-- ==================== PROMO BANNER ==================== -->
 <section class="promo-banner">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <p class="section-tag" style="color:rgba(200,169,110,0.7)">Flash Sale</p>
-                <h2>Up to <span>40% Off</span><br>Gaming Essentials</h2>
-                <p>Limited time offer. Don't miss out on our biggest sale of the year on premium gaming laptops and
-                    accessories.</p>
+                <p class="section-tag">Flash Sale</p>
+                <h2 class="promo-title">Up to <span>40% Off</span><br>Gaming Essentials</h2>
+                <p class="promo-desc">Limited time offer. Don't miss out on our biggest sale of the year on premium
+                    gaming laptops and accessories.</p>
                 <div class="countdown">
                     <div class="count-item">
                         <span class="count-num" id="cnt-h">08</span>
@@ -381,138 +374,129 @@
                         <span class="count-label">Seconds</span>
                     </div>
                 </div>
-                <a href="#" class="btn-primary-custom" style="background:var(--accent);border-color:var(--accent)">
-                    Shop the Sale <i class="fas fa-arrow-right"></i>
+                <a href="#" class="btn-primary-custom mt-4">
+                    Shop the Sale <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
             <div class="col-lg-6 d-none d-lg-flex justify-content-end">
-                <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Sale"
-                    style="max-width:380px;filter:drop-shadow(0 20px 60px rgba(0,0,0,0.4));transform:rotate(-3deg)">
+                <img src="https://m.media-amazon.com/images/I/61Ze2wc9nyS._AC_SL1500_.jpg" alt="Sale" class="promo-img">
             </div>
         </div>
     </div>
 </section>
-
 
 <!-- ==================== CATEGORY TABS ==================== -->
-<section class="category-tabs">
+<section class="category-tabs section-py">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-header text-center mb-4">
-                    <p class="section-tag">Browse by Category</p>
-                    <h2 class="section-title">Shop by Style</h2>
-                    <div class="section-line centered"></div>
+        <div class="section-header text-center mb-5">
+            <p class="section-tag">Browse by Category</p>
+            <h2 class="section-title">Shop by Style</h2>
+            <div class="section-line centered"></div>
+        </div>
+
+        <ul class="nav custom-tabs mb-5 justify-content-center" id="shopTabs">
+            <li class="nav-item"><a class="nav-link active" href="#tab-tshirt" data-bs-toggle="tab">T-Shirts</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-blazers" data-bs-toggle="tab">Blazers</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-sunglass" data-bs-toggle="tab">Sunglasses</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-kids" data-bs-toggle="tab">Kids</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-polo" data-bs-toggle="tab">Polo Shirts</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- All tab panes remain exactly the same structure as your original -->
+            <div class="tab-pane fade show active" id="tab-tshirt">
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
+                                alt="T-Shirt">
+                            <div class="price">$56</div>
+                            <div class="name">Easy Polo Black Edition</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- remaining products same as original -->
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300&q=80"
+                                alt="T-Shirt">
+                            <div class="price">$48</div>
+                            <div class="name">Classic White Crewneck</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&q=80"
+                                alt="T-Shirt">
+                            <div class="price">$64</div>
+                            <div class="name">Premium Stripe Tee</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
+                                alt="T-Shirt">
+                            <div class="price">$72</div>
+                            <div class="name">Limited Edition Graphic</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <ul class="nav custom-tabs mb-4" id="shopTabs">
-                    <li class="nav-item"><a class="nav-link active" href="#tab-tshirt" data-bs-toggle="tab">T-Shirts</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-blazers" data-bs-toggle="tab">Blazers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-sunglass" data-bs-toggle="tab">Sunglasses</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-kids" data-bs-toggle="tab">Kids</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-polo" data-bs-toggle="tab">Polo Shirts</a></li>
-                </ul>
+            <!-- Other tabs remain identical in structure -->
+            <div class="tab-pane fade" id="tab-blazers">
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&q=80"
+                                alt="Blazer">
+                            <div class="price">$189</div>
+                            <div class="name">Slim Fit Navy Blazer</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c8a?w=300&q=80"
+                                alt="Blazer">
+                            <div class="price">$245</div>
+                            <div class="name">Classic Black Jacket</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tab-tshirt">
-                        <div class="row g-3">
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
-                                        alt="T-Shirt">
-                                    <div class="price">$56</div>
-                                    <div class="name">Easy Polo Black Edition</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300&q=80"
-                                        alt="T-Shirt">
-                                    <div class="price">$48</div>
-                                    <div class="name">Classic White Crewneck</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&q=80"
-                                        alt="T-Shirt">
-                                    <div class="price">$64</div>
-                                    <div class="name">Premium Stripe Tee</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80"
-                                        alt="T-Shirt">
-                                    <div class="price">$72</div>
-                                    <div class="name">Limited Edition Graphic</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
+            <div class="tab-pane fade" id="tab-sunglass">
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=300&q=80"
+                                alt="Sunglasses">
+                            <div class="price">$129</div>
+                            <div class="name">Aviator Polarized</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="tab-blazers">
-                        <div class="row g-3">
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&q=80"
-                                        alt="Blazer">
-                                    <div class="price">$189</div>
-                                    <div class="name">Slim Fit Navy Blazer</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c8a?w=300&q=80"
-                                        alt="Blazer">
-                                    <div class="price">$245</div>
-                                    <div class="name">Classic Black Jacket</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab-sunglass">
-                        <div class="row g-3">
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=300&q=80"
-                                        alt="Sunglasses">
-                                    <div class="price">$129</div>
-                                    <div class="name">Aviator Polarized</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab-kids">
-                        <div class="text-center py-4 text-muted">Kids collection coming soon.</div>
-                    </div>
-                    <div class="tab-pane fade" id="tab-polo">
-                        <div class="row g-3">
-                            <div class="col-6 col-md-3">
-                                <div class="tab-product-card">
-                                    <img src="https://images.unsplash.com/photo-1598522325074-042db73aa4e6?w=300&q=80"
-                                        alt="Polo">
-                                    <div class="price">$89</div>
-                                    <div class="name">Classic Polo Navy</div>
-                                    <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to
-                                        Cart</button>
-                                </div>
-                            </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-kids">
+                <div class="text-center py-5 text-muted">Kids collection coming soon.</div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-polo">
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="tab-product-card">
+                            <img src="https://images.unsplash.com/photo-1598522325074-042db73aa4e6?w=300&q=80"
+                                alt="Polo">
+                            <div class="price">$89</div>
+                            <div class="name">Classic Polo Navy</div>
+                            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -521,9 +505,8 @@
     </div>
 </section>
 
-
 <!-- ==================== RECOMMENDED ==================== -->
-<section class="recommended-section">
+<section class="recommended-section section-py bg-surface-2">
     <div class="container">
         <div class="section-header d-flex justify-content-between align-items-end mb-4">
             <div>
@@ -532,10 +515,12 @@
                 <div class="section-line"></div>
             </div>
             <div class="rec-carousel-nav">
-                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="prev"><i
-                        class="fas fa-chevron-left"></i></button>
-                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="next"><i
-                        class="fas fa-chevron-right"></i></button>
+                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="rec-nav-btn" data-bs-target="#recCarousel" data-bs-slide="next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
 
@@ -543,6 +528,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="row g-3">
+                        <!-- Recommended product cards - structure unchanged -->
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product-card">
                                 <div class="product-image-area">
@@ -563,6 +549,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- remaining recommended cards same as original -->
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product-card">
                                 <div class="product-image-area">
@@ -630,7 +617,6 @@
     </div>
 </section>
 
-
 <!-- ==================== FEATURES STRIP ==================== -->
 <section class="features-strip">
     <div class="container">
@@ -674,4 +660,5 @@
         </div>
     </div>
 </section>
+
 {% endblock content %}
