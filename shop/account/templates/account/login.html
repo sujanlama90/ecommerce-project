@@ -5,10 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in — Marlow</title>
+    <title>Sign in — SajiloCart</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- alertfy -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -24,7 +27,7 @@
 
         <!-- ============ LEFT BRAND PANEL ============ -->
         <aside class="auth-panel">
-            <div class="brand-mark">MAR<span>low</span></div>
+            <div class="brand-mark">Sajilo<span>Cart</span></div>
 
             <div class="panel-copy">
                 <div class="eyebrow-rule"></div>
@@ -70,11 +73,12 @@
                 <div class="form-kicker">Welcome back</div>
                 <h2>Sign in to your account</h2>
 
-                <form novalidate>
-
+                <form method="post" action="{% url 'log_in' %}" novalidate>
+                    {% csrf_token %}
                     <div class="mb-3">
-                        <label for="email" class="field-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                        <label for="username" class="field-label">Username</label>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="sujan123"
+                            required>
                     </div>
 
                     <div class="mb-2">
@@ -82,8 +86,8 @@
                             <label for="password" class="field-label mb-0">Password</label>
                             <a href="#" class="forgot-link">Forgot?</a>
                         </div>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password"
-                            required>
+                        <input type="password" name="password" class="form-control" id="password"
+                            placeholder="Enter your password" required>
                     </div>
 
                     <div class="form-check mb-4 mt-3">
@@ -117,13 +121,35 @@
                 </form>
 
                 <p class="switch-line">
-                    New to Marlow? <a href="register.html">Create an account</a>
+                    New to Marlow? <a href="{% url 'register' %}">Create an account</a>
                 </p>
 
             </div>
         </main>
 
     </div>
+
+
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    {% if messages %}
+    {% for message in messages %}
+    <script>
+        alertify.set('notifier', 'position', 'top-right');
+        const tag = "{{ message.tags }}";
+        if (tag === "success") {
+            alertify.success("{{ message|escapejs }}");
+        } else if (tag === "error") {
+            alertify.error("{{ message|escapejs }}");
+        } else if (tag === "warning") {
+            alertify.warning("{{ message|escapejs }}");
+        } else {
+            alertify.message("{{ message|escapejs }}");
+        }
+    </script>
+    {% endfor %}
+    {% endif %}
 
 </body>
 

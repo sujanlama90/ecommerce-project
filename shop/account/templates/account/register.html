@@ -5,169 +5,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create account — Marlow</title>
+    <title>Create account — SajiloCart</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Fonts -->
+    <!-- alertfy -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- intl-tel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/css/intlTelInput.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <!-- Page styles -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
 </head>
 
-<body>
+<body class="register-page">
 
     <div class="auth-shell">
-
-        <!-- ============ LEFT BRAND PANEL ============ -->
-        <aside class="auth-panel">
-            <div class="brand-mark">MAR<span>low</span></div>
-
-            <div class="panel-copy">
-                <div class="eyebrow-rule"></div>
-                <h1>Join the<br><em>Marlow</em> list.</h1>
-                <p>Create an account to check out in seconds, track every order, and keep one address book for all your
-                    deliveries.</p>
-            </div>
-
-            <div class="panel-footer">
-                <div class="stat">
-                    <b>Free</b>
-                    <span>to join</span>
-                </div>
-                <div class="stat">
-                    <b>1-click</b>
-                    <span>reorders</span>
-                </div>
-                <div class="stat">
-                    <b>Early</b>
-                    <span>sale access</span>
-                </div>
-            </div>
-
-            <!-- decorative line-art -->
-            <svg class="botanical" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M40 300C60 220 90 160 160 120C220 86 260 60 300 20" stroke="#B4894F" stroke-opacity="0.55"
-                    stroke-width="1.4" />
-                <path d="M70 290C110 240 130 200 130 150C130 110 118 80 100 40" stroke="#FAF7F0" stroke-opacity="0.25"
-                    stroke-width="1.2" />
-                <circle cx="160" cy="120" r="4" fill="#B4894F" />
-                <circle cx="220" cy="86" r="3" fill="#FAF7F0" fill-opacity="0.5" />
-                <circle cx="100" cy="40" r="3" fill="#FAF7F0" fill-opacity="0.5" />
-                <path d="M180 105C195 95 205 80 205 65" stroke="#B4894F" stroke-opacity="0.55" stroke-width="1.4" />
-                <path d="M145 135C130 130 118 118 116 102" stroke="#B4894F" stroke-opacity="0.4" stroke-width="1.2" />
-            </svg>
-        </aside>
-
-        <!-- ============ RIGHT FORM PANEL ============ -->
         <main class="auth-form-wrap">
-            <div class="auth-form-inner wide">
+            <div class="auth-card">
 
-                <div class="mobile-brand">MAR<span>low</span></div>
+                <div class="register-brand">
+                    <div class="brand-mark">Sajilo<span>Cart</span></div>
+                </div>
 
-                <div class="form-kicker">Let's get you set up</div>
-                <h2>Create your account</h2>
+                <div class="form-header">
+                    <span class="form-kicker">Welcome to SajiloCart</span>
+                    <h1>Create your account</h1>
+                    <p>Join SajiloCart and make every order simpler, faster, and more personal.</p>
+                </div>
 
-                <form novalidate>
+                <form id="registerForm" method="POST" action="{% url 'register' %}" novalidate>
+                    {% csrf_token %}
 
-                    <div class="section-tag">Your details</div>
-
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="firstName" class="field-label">First name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Aanya" required>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="lastName" class="field-label">Last name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Sharma" required>
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mt-0">
-                        <div class="col-sm-6 mt-3">
-                            <label for="email" class="field-label">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-                        </div>
-                        <div class="col-sm-6 mt-3">
-                            <label for="phone" class="field-label">Phone number</label>
-                            <div class="input-group">
-                                <span class="input-group-text">+977</span>
-                                <input type="tel" class="form-control" id="phone" placeholder="98X XXX XXXX" required>
+                    <!-- =====================================================
+                         01 — YOUR DETAILS
+                    ====================================================== -->
+                    <section class="form-section">
+                        <div class="section-heading">
+                            <span class="section-number">01</span>
+                            <div>
+                                <h2 class="section-tag">Your details</h2>
+                                <p>Tell us a little about yourself.</p>
                             </div>
                         </div>
+
+                        <!-- First name / Last name -->
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="field-label">First name</label>
+                                <input type="text" class="form-control" id="firstName" name="first_name"
+                                    placeholder="Sujan" autocomplete="given-name" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="lastName" class="field-label">Last name</label>
+                                <input type="text" class="form-control" id="lastName" name="last_name"
+                                    placeholder="Lama" autocomplete="family-name" required>
+                            </div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="row g-3 mt-1">
+                            <div class="col-12">
+                                <label for="username" class="field-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="Choose a username" autocomplete="username" minlength="3"
+                                    maxlength="150" required>
+                            </div>
+                        </div>
+
+                        <div class="field-hint">
+                            Your username must be unique and will be used to identify your SajiloCart account.
+                        </div>
+
+                        <!-- Email / Phone -->
+                        <div class="row g-3 mt-1">
+                            <div class="col-sm-6">
+                                <label for="email" class="field-label">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="phone" class="field-label">Phone number</label>
+
+                                <div class="input-group">
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="98X XXX XXXX" autocomplete="tel" required>
+                                    <span id="error_msg" style="display: none;">Invalid phone number</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field-hint">
+                            We'll text order and delivery updates to this number.
+                        </div>
+                    </section>
+
+
+                    <!-- =====================================================
+                         02 — DELIVERY ADDRESS
+                    ====================================================== -->
+                    <section class="form-section">
+                        <div class="section-heading">
+                            <span class="section-number">02</span>
+
+                            <div>
+                                <h2 class="section-tag">Delivery address</h2>
+                                <p>Write your address or select a point on the map.</p>
+                            </div>
+                        </div>
+
+                        <div class="address-field-wrap mb-3">
+                            <label for="address" class="field-label">
+                                Delivery address
+                            </label>
+
+                            <div class="address-input-container">
+                                <span class="address-icon">⌖</span>
+
+                                <input type="text" class="form-control address-input" id="address" name="address"
+                                    placeholder="House no., street, area" autocomplete="street-address" required>
+                            </div>
+                        </div>
+
+                        <div class="map-top-row mb-2">
+                            <button type="button" id="currentLocationBtn" class="current-location-btn">
+
+                                <span class="location-arrow">➤</span>
+                                Use my current location
+                            </button>
+
+                            <span id="locationCaptured" class="location-captured" style="display:none;">
+
+                                ✓ Location selected
+                            </span>
+                        </div>
+
+                        <div class="map-container">
+                            <div id="locationMap"></div>
+
+                            <div class="map-overlay-label">
+                                <span>⌖</span>
+                                Select delivery point
+                            </div>
+                        </div>
+
+                        <div class="map-help mt-2">
+                            <span class="info-badge">i</span>
+                            Click anywhere on the map to select your delivery location.
+                        </div>
+
+                        <input type="hidden" id="latitude" name="latitude">
+
+                        <input type="hidden" id="longitude" name="longitude">
+                    </section>
+
+
+                    <!-- =====================================================
+                         03 — SECURITY
+                    ====================================================== -->
+                    <section class="form-section">
+                        <div class="section-heading">
+                            <span class="section-number">03</span>
+
+                            <div>
+                                <h2 class="section-tag">Security</h2>
+                                <p>Keep your account protected.</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="password" class="field-label">
+                                    Password
+                                </label>
+
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="At least 8 characters" autocomplete="new-password" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="confirmPassword" class="field-label">
+                                    Confirm password
+                                </label>
+
+                                <input type="password" class="form-control" id="confirmPassword" name="confirm_password"
+                                    placeholder="Re-enter password" autocomplete="new-password" required>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- =====================================================
+                         ACCOUNT OPTIONS
+                    ====================================================== -->
+                    <div class="account-options mb-4">
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+
+                            <label class="form-check-label" for="terms">
+                                I agree to SajiloCart's
+                                <a href="#">Terms of Service</a>
+                                and
+                                <a href="#">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+
+                            <label class="form-check-label" for="newsletter">
+                                Send me offers, restocks, and new arrivals
+                            </label>
+                        </div>
+
                     </div>
 
-                    <div class="field-hint mb-0">We'll text order and delivery updates to this number.</div>
 
-                    <div class="section-tag">address</div>
+                    <!-- =====================================================
+                         SUBMIT
+                    ====================================================== -->
+                    <button type="submit" class="btn btn-brass w-100">
 
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="street" class="field-label">Street address</label>
-                            <input type="text" class="form-control" id="street" placeholder="House no., street, area"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mt-0">
-                        <div class="col-sm-6 mt-3">
-                            <label for="city" class="field-label">City</label>
-                            <input type="text" class="form-control" id="city" placeholder="Kathmandu" required>
-                        </div>
-                        <div class="col-sm-3 mt-3">
-                            <label for="state" class="field-label">Province</label>
-                            <input type="text" class="form-control" id="state" placeholder="Bagmati" required>
-                        </div>
-                        <div class="col-sm-3 mt-3">
-                            <label for="zip" class="field-label">Postal code</label>
-                            <input type="text" class="form-control" id="zip" placeholder="44600" required>
-                        </div>
-                    </div>
-
-                    <div class="section-tag">Security</div>
-
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="password" class="field-label">Password</label>
-                            <input type="password" class="form-control" id="password"
-                                placeholder="At least 8 characters" required>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="confirmPassword" class="field-label">Confirm password</label>
-                            <input type="password" class="form-control" id="confirmPassword"
-                                placeholder="Re-enter password" required>
-                        </div>
-                    </div>
-
-                    <div class="form-check mt-4 mb-1">
-                        <input class="form-check-input" type="checkbox" id="terms" required>
-                        <label class="form-check-label" for="terms">
-                            I agree to Marlow's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                        </label>
-                    </div>
-
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" id="newsletter">
-                        <label class="form-check-label" for="newsletter">
-                            Send me offers, restocks, and new arrivals
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn btn-brass w-100">Create account</button>
+                        <span>Create account</span>
+                        <span class="button-arrow">→</span>
+                    </button>
 
                 </form>
 
-                <p class="switch-line">
-                    Already have an account? <a href="login.html">Sign in</a>
-                </p>
+
+                <!-- =====================================================
+                     LOGIN LINK
+                ====================================================== -->
+                <div class="switch-line">
+                    <span>Already have an account?</span>
+                    <a href="{% url 'log_in' %}">Sign in</a>
+                </div>
+
+
+                <!-- =====================================================
+                     FOOTER
+                ====================================================== -->
+                <div class="form-footer">
+                    <span>Secure account creation</span>
+                    <span class="footer-divider"></span>
+                    <span>Your information stays private</span>
+                </div>
 
             </div>
         </main>
-
     </div>
+
+
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Map JavaScript -->
+    <script src="{% static 'js/map.js' %}"></script>
+    <!-- intl-tel -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/js/intlTelInput.min.js"></script>
+    <script src="{% static 'js/phone.js' %}"></script>
+
+
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    {% if messages %}
+    {% for message in messages %}
+    <script>
+        alertify.set('notifier', 'position', 'top-right');
+        const tag = "{{ message.tags }}";
+        if (tag === "success") {
+            alertify.success("{{ message|escapejs }}");
+        } else if (tag === "error") {
+            alertify.error("{{ message|escapejs }}");
+        } else if (tag === "warning") {
+            alertify.warning("{{ message|escapejs }}");
+        } else {
+            alertify.message("{{ message|escapejs }}");
+        }
+    </script>
+    {% endfor %}
+    {% endif %}
 
 </body>
 

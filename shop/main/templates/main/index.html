@@ -64,48 +64,18 @@
 <section class="categories-strip py-4">
     <div class="container">
         <div class="row g-3">
+            {% for i in category %}
+
+
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-laptop"></i></div>
-                    <h6>Laptops</h6>
-                    <span>128 items</span>
+                    <div class="cat-icon"><i class="{{i.icon}}"></i></div>
+                    <h6>{{i.title}}</h6>
+                    <span>{{i.product_set.count}} items</span>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <h6>Phones</h6>
-                    <span>94 items</span>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-tshirt"></i></div>
-                    <h6>Fashion</h6>
-                    <span>320 items</span>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-running"></i></div>
-                    <h6>Sports</h6>
-                    <span>156 items</span>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-headphones"></i></div>
-                    <h6>Audio</h6>
-                    <span>72 items</span>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="cat-card">
-                    <div class="cat-icon"><i class="fas fa-gamepad"></i></div>
-                    <h6>Gaming</h6>
-                    <span>89 items</span>
-                </div>
-            </div>
+
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -128,16 +98,17 @@
                                 <h5 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#{{ i.id }}">
-                                        {{ i.title }}
-                                        <span class="ms-auto badge">5</span>
+                                        <i class="{{i.icon}}"></i>{{ i.title }}
+                                        <span class="ms-auto badge text-danger">({{ i.sub_count }})</span>
                                     </button>
                                 </h5>
                                 <div id="{{ i.id }}" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
                                     <div class="accordion-body px-0 py-1">
                                         {% for j in i.subcategory_set.all %}
-                                        <a href="#" class="sub-cat-link">
+                                        <a hx-get="?subcategory={{j.id}}" hx-target="#product_container"
+                                            hx-swap="innerHTML" class="sub-cat-link">
                                             <span>{{ j.title }}</span>
-                                            <span class="count">(42)</span>
+                                            <span class="count">({{j.product_count}})</span>
                                         </a>
                                         {% endfor %}
                                     </div>
@@ -206,145 +177,10 @@
                     <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
                 </div>
 
-                <div class="row g-3">
+                <div class="row g-3" id="product_container">
                     <!-- Product cards remain exactly the same structure -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <span class="product-badge new">New</span>
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/legion2.png' %}" alt="Lenovo Legion">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">Lenovo</div>
-                                <p class="product-title">Legion 5 Gaming Laptop 15.6" AMD Ryzen 7 GTX 1660Ti 16GB RAM
-                                </p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$1,020 <span class="original">$1,299</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "main/product.html" %}
 
-                    <!-- Product 2 -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <span class="product-badge sale">Sale</span>
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/msi2.png' %}" alt="MSI GL66">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">MSI</div>
-                                <p class="product-title">GL66 Gaming Laptop 15.6" 144Hz RTX 3070 Core i7 16GB 512GB</p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$2,245 <span class="original">$2,599</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/asus.png' %}" alt="ASUS TUF">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">Asus</div>
-                                <p class="product-title">TUF FX505DT Gaming Laptop 15.6" 120Hz Ryzen 5 GTX 1650 8GB</p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$1,245</div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <span class="product-badge sale">−10%</span>
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/iphone2.png' %}" alt="Razer Blade">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">Iphone 13</div>
-                                <p class="product-title">Blade 15 Base Gaming Laptop Core i7 GTX 1660Ti 16GB CNC
-                                    Aluminum</p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$2,345 <span class="original">$2,599</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 5 -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <span class="product-badge new">New</span>
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/acer_4.png' %}" alt="Laptop">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">HP</div>
-                                <p class="product-title">Pavilion Gaming 15 Laptop i5-11300H GTX 1650 8GB 512GB SSD</p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$899</div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 6 -->
-                    <div class="col-sm-6 col-xl-4">
-                        <div class="product-card">
-                            <div class="product-image-area">
-                                <div class="product-actions">
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-share-alt"></i></button>
-                                </div>
-                                <img src="{% static 'images/product-details/acer_3.png' %}" alt="Laptop">
-                            </div>
-                            <div class="product-body">
-                                <div class="brand-tag">Dell</div>
-                                <p class="product-title">XPS 15 OLED Laptop Core i9 RTX 3050Ti 32GB 1TB Platinum Silver
-                                </p>
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-price">$1,799 <span class="original">$2,099</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

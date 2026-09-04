@@ -1,0 +1,27 @@
+{% for i in product %}
+<div class="col-sm-6 col-xl-4">
+    <div class="product-card">
+        <div class="product-image-area">
+            {% if i.is_new %}
+            <span class="product-badge new">New</span>
+            {% endif %}
+
+            <div class="product-actions">
+                <button class="action-btn"><i class="fas fa-heart"></i></button>
+                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                <button class="action-btn"><i class="fas fa-share-alt"></i></button>
+            </div>
+            <img src="{{i.image.url}}" alt="{{i.image.name}}">
+        </div>
+        <div class="product-body">
+            <div class="brand-tag">{{i.name}}</div>
+            <p class="product-title">{{i.desc|safe|truncatewords:10}}</p>
+        </div>
+        <div class="product-footer">
+            <div class="product-price">Rs {{i.price}} <br> <span class="original">Rs
+                    {{i.mark_price}} </span></div>
+            <button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button>
+        </div>
+    </div>
+</div>
+{% endfor %}

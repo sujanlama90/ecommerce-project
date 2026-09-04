@@ -149,7 +149,7 @@ api_secret=config('api_secret'),
 secure=config('secure')
 )
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
 
 
 #ck editor 5

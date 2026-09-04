@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const categorySelect = document.querySelector('#id_Category');
+    const categorySelect = document.querySelector('#id_category');
     const subCategorySelect = document.querySelector('#id_subcategory');
 
     if (!categorySelect || !subCategorySelect) return;

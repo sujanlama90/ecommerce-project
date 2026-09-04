@@ -1,6 +1,8 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django_ckeditor_5.fields import CKEditor5Field
+from datetime import timedelta
+from django.utils import timezone
 
 class OfferProduct(models.Model):
     title =models.CharField( max_length=200)
@@ -16,6 +18,7 @@ class OfferProduct(models.Model):
 
 class Category(models.Model):
     title=models.CharField(max_length=200)
+    icon = models.CharField(max_length=200,default='fa fa-solid')
     def __str__(self):
             return self.title
 
@@ -27,22 +30,25 @@ class SubCategory(models.Model):
         return f"{self.title} [Cat:{self.category.id}]"
 
 class Product(models.Model):
-      name=models.CharField(max_length=200)
-      Category=models.ForeignKey(Category, on_delete=models.CASCADE)
-      subcategory=models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-      desc=  CKEditor5Field('Text', config_name='extends')
-      image = CloudinaryField('image',blank=True,null=True) 
-      stock = models.PositiveBigIntegerField()
-      mark_price = models.DecimalField(max_digits=8,decimal_places=2)
-      discount_percent = models.DecimalField(max_digits=4,decimal_places=2)
-      price = models.DecimalField(max_digits=8,decimal_places=2,editable=False)
-      created_at = models.DateTimeField(auto_now_add=True)
-      update_at = models.DateTimeField(auto_now_add=True)
+    name=models.CharField(max_length=200)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE)
+    subcategory=models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    desc=  CKEditor5Field('Text', config_name='extends')
+    image = CloudinaryField('image',blank=True,null=True) 
+    stock = models.PositiveBigIntegerField()
+    mark_price = models.DecimalField(max_digits=8,decimal_places=2)
+    discount_percent = models.DecimalField(max_digits=4,decimal_places=2)
+    price = models.DecimalField(max_digits=8,decimal_places=2,editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now_add=True)
 
-      def save(self,*args, **kwargs):
+    def save(self,*args, **kwargs):
             self.name = self.name.capitalize()
             self.price = self.mark_price*(1-self.discount_percent/100)
             super().save(*args,**kwargs)
+
+    def is_new(self):
+         return self.created_at >= timezone.now() - timedelta(days=4) 
             
 
 class ImageProduct(models.Model):
