@@ -24,8 +24,11 @@ def index(request):
     
     return render(request,'main/index.html',context)
 
-
-
-
 def cart(request):
     return render(request,'main/cart.html')
+
+def contact(request):
+    return render(request,'main/contact.html')
+
+def about(request):
+    return render(request,'main/about.html')

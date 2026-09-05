@@ -82,8 +82,8 @@
                                 href="{% url 'index' %}">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{% url 'index' %}" data-bs-toggle="dropdown"
-                                aria-expanded="true">Shop</a>
+                            <a class="nav-link dropdown-toggle"
+                                href="{% url 'index' %}" data-bs-toggle="dropdown" aria-expanded="true">Shop</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'index' %}"><i
                                             class="fas fa-th me-2 text-muted"></i>All Products</a></li>
@@ -96,8 +96,10 @@
                                             class="fas fa-shopping-cart me-2 text-muted"></i>Cart</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#contact">Contact</a></li>
+                        <li class="nav-item "><a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
+                                href="{% url 'about' %}#about">About</a></li>
+                        <li class="nav-item "><a class="nav-link {% if request.path == '/contact/' %}active{% endif %}"
+                                href="{% url 'contact' %}#contact">Contact</a></li>
                     </ul>
 
                     <form class="nav-search d-flex me-lg-3" role="search" method="get" action="{% url 'index' %}">

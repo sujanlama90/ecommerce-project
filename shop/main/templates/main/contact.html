@@ -1,0 +1,827 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<!-- ==================== CONTACT HERO ==================== -->
+
+<section class="contact-hero">
+    <div class="container">
+        <div class="row align-items-center">
+        
+            <div class="col-lg-7">
+                <div class="contact-hero-content">
+                    <p class="section-tag">Get In Touch</p>
+
+                    <h1 class="contact-hero-title">
+                        We're here to
+                        <span>help.</span>
+                    </h1>
+
+                    <p class="contact-hero-desc">
+                        Have a question about your order, products, delivery, or anything
+                        else? Our friendly support team is ready to help you.
+                    </p>
+
+                    <div class="hero-contact-meta">
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <strong>Support Hours</strong>
+                                <span>Sun – Fri · 9 AM – 6 PM</span>
+                            </div>
+                        </div>
+
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <strong>Quick Response</strong>
+                                <span>Usually within 24 hours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="contact-hero-card">
+                    <div class="hero-card-top">
+                        <span>Need help?</span>
+                        <i class="fas fa-headset"></i>
+                    </div>
+
+                    <div class="hero-card-main">
+                        <div class="hero-card-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+
+                        <h3 class="text-white">Let's talk</h3>
+
+                        <p>
+                            Our customer care team is just a message away.
+                        </p>
+
+                        <a href="#contact-form" class="btn-primary-custom">
+                            Send a Message
+                            <i class="fas fa-arrow-down ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- ==================== CONTACT INFORMATION ==================== -->
+
+<section class="contact-info-section section-py">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-tag">Contact Information</p>
+            <h2 class="section-title">We're always happy to help</h2>
+            <div class="section-line centered"></div>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Phone -->
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+
+                    <span class="info-label">Call Us</span>
+
+                    <h4>+977 9800000000</h4>
+
+                    <p>
+                        Speak directly with our support team.
+                    </p>
+
+                    <a href="tel:+9779800000000">
+                        Call Now
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+
+                    <span class="info-label">Email Us</span>
+
+                    <h4>support@sajilocart.com</h4>
+
+                    <p>
+                        Send us your questions anytime.
+                    </p>
+
+                    <a href="mailto:support@sajilocart.com">
+                        Send Email
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+
+                    <span class="info-label">Visit Us</span>
+
+                    <h4>Kathmandu, Nepal</h4>
+
+                    <p>
+                        Come visit our office and say hello.
+                    </p>
+
+                    <a href="#location">
+                        View Location
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Live Chat -->
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+
+                    <span class="info-label">Live Chat</span>
+
+                    <h4>Chat With Us</h4>
+
+                    <p>
+                        Get quick answers from our team.
+                    </p>
+
+                    <a href="#contact-form">
+                        Start Chat
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    ```
+
+</section>
+
+<!-- ==================== CONTACT FORM ==================== -->
+
+<section class="contact-form-section section-py" id="contact-form">
+    <div class="container">
+
+        <div class="row g-5 align-items-start">
+
+            <!-- Left Content -->
+            <div class="col-lg-5">
+
+                <div class="form-intro">
+                    <p class="section-tag">Send A Message</p>
+
+                    <h2 class="section-title">
+                        Tell us how
+                        <span>we can help.</span>
+                    </h2>
+
+                    <div class="section-line"></div>
+
+                    <p class="form-intro-text">
+                        Whether you have a question about a product, need help with
+                        an order, or simply want to give us feedback, we'd love to
+                        hear from you.
+                    </p>
+                </div>
+
+                <!-- Small Help Cards -->
+                <div class="help-list">
+
+                    <div class="help-item">
+                        <div class="help-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+
+                        <div>
+                            <h5>Order Support</h5>
+                            <p>
+                                Need help tracking or changing your order?
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-icon">
+                            <i class="fas fa-rotate-left"></i>
+                        </div>
+
+                        <div>
+                            <h5>Returns & Refunds</h5>
+                            <p>
+                                We'll help make your return process simple.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-icon">
+                            <i class="fas fa-circle-question"></i>
+                        </div>
+
+                        <div>
+                            <h5>Product Questions</h5>
+                            <p>
+                                Ask us anything about our products.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Form -->
+            <div class="col-lg-7">
+
+                <div class="contact-form-card">
+
+                    <div class="form-card-header">
+                        <div>
+                            <span>CONTACT FORM</span>
+                            <h3>Drop us a line</h3>
+                        </div>
+
+                        <div class="form-header-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="">
+
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label for="name">
+                                        Full Name
+                                    </label>
+
+                                    <div class="input-wrap">
+                                        <i class="fas fa-user"></i>
+
+                                        <input type="text" id="name" name="name" placeholder="Your full name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label for="email">
+                                        Email Address
+                                    </label>
+
+                                    <div class="input-wrap">
+                                        <i class="fas fa-envelope"></i>
+
+                                        <input type="email" id="email" name="email" placeholder="you@example.com"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label for="phone">
+                                        Phone Number
+                                    </label>
+
+                                    <div class="input-wrap">
+                                        <i class="fas fa-phone"></i>
+
+                                        <input type="tel" id="phone" name="phone" placeholder="+977 98XXXXXXXX">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Subject -->
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label for="subject">
+                                        Subject
+                                    </label>
+
+                                    <div class="input-wrap">
+                                        <i class="fas fa-tag"></i>
+
+                                        <select id="subject" name="subject">
+                                            <option value="">Select a topic</option>
+                                            <option value="order">Order Support</option>
+                                            <option value="product">Product Question</option>
+                                            <option value="delivery">Delivery</option>
+                                            <option value="return">Returns & Refunds</option>
+                                            <option value="payment">Payment</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="col-12">
+                                <div class="form-group-custom">
+                                    <label for="message">
+                                        Your Message
+                                    </label>
+
+                                    <div class="input-wrap textarea-wrap">
+                                        <i class="fas fa-message"></i>
+
+                                        <textarea id="message" name="message" rows="6"
+                                            placeholder="Tell us what's on your mind..." required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="col-12">
+
+                                <button type="submit" class="btn-primary-custom contact-submit">
+                                    Send Message
+                                    <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+
+                                <p class="form-note">
+                                    <i class="fas fa-lock"></i>
+                                    Your information is safe and will never be shared.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</section>
+
+<!-- ==================== WHY CONTACT US ==================== -->
+
+<section class="why-contact-section section-py">
+    <div class="container">
+
+    
+        <div class="section-header text-center mb-5">
+            <p class="section-tag">Why SajiloCart</p>
+            <h2 class="section-title">Support that feels human</h2>
+            <div class="section-line centered"></div>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="why-card">
+                    <div class="why-number">01</div>
+
+                    <div class="why-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+
+                    <h4>People First</h4>
+
+                    <p>
+                        We treat every customer like a person, not an order number.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="why-card">
+                    <div class="why-number">02</div>
+
+                    <div class="why-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+
+                    <h4>Fast Responses</h4>
+
+                    <p>
+                        We aim to respond quickly so you aren't left waiting.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="why-card">
+                    <div class="why-number">03</div>
+
+                    <div class="why-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+
+                    <h4>Real Solutions</h4>
+
+                    <p>
+                        We focus on solving your problem, not just answering it.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+
+</section>
+
+<!-- ==================== LOCATION ==================== -->
+
+<section class="location-section section-py" id="location">
+
+
+    <div class="container">
+
+        <div class="row g-4 align-items-stretch">
+
+            <!-- Location Details -->
+            <div class="col-lg-5">
+
+                <div class="location-card">
+
+                    <p class="section-tag">Come Visit</p>
+
+                    <h2 class="section-title">
+                        Find us in
+                        <span>Kathmandu.</span>
+                    </h2>
+
+                    <div class="section-line"></div>
+
+                    <p class="location-description">
+                        Have something you'd rather discuss in person?
+                        Our team would be happy to welcome you.
+                    </p>
+
+                    <div class="location-detail">
+
+                        <div class="location-detail-icon">
+                            <i class="fas fa-location-dot"></i>
+                        </div>
+
+                        <div>
+                            <span>Our Address</span>
+                            <strong>
+                                Kathmandu, Nepal
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="location-detail">
+
+                        <div class="location-detail-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+
+                        <div>
+                            <span>Phone</span>
+                            <strong>
+                                +977 9800000000
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="location-detail">
+
+                        <div class="location-detail-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+
+                        <div>
+                            <span>Email</span>
+                            <strong>
+                                support@sajilocart.com
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <a href="#" class="btn-outline-custom location-btn">
+                        Get Directions
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Map -->
+            <div class="col-lg-7">
+
+                <div class="map-wrapper">
+
+                    <iframe src="https://www.google.com/maps?q=Kathmandu,Nepal&output=embed" width="100%" height="100%"
+                        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                    <div class="map-overlay-card">
+
+                        <div class="map-pin">
+                            <i class="fas fa-location-dot"></i>
+                        </div>
+
+                        <div>
+                            <strong>SajiloCart</strong>
+                            <span>Kathmandu, Nepal</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==================== FAQ ==================== -->
+
+<section class="faq-section section-py">
+
+    <div class="container">
+
+        <div class="section-header text-center mb-5">
+            <p class="section-tag">Need To Know</p>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <div class="section-line centered"></div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-9">
+
+                <div class="accordion contact-faq" id="contactFaq">
+
+                    <!-- FAQ 1 -->
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqOne">
+
+                                How quickly will I receive a response?
+
+                            </button>
+                        </h2>
+
+                        <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#contactFaq">
+
+                            <div class="accordion-body">
+                                We usually respond to customer inquiries within
+                                24 hours during our support hours.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 2 -->
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqTwo">
+
+                                Can I change or cancel my order?
+
+                            </button>
+                        </h2>
+
+                        <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#contactFaq">
+
+                            <div class="accordion-body">
+                                If your order has not been shipped yet, contact
+                                our support team as soon as possible and we'll
+                                do our best to help.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 3 -->
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqThree">
+
+                                How can I track my order?
+
+                            </button>
+                        </h2>
+
+                        <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#contactFaq">
+
+                            <div class="accordion-body">
+                                Once your order has been shipped, you'll receive
+                                tracking information so you can follow its journey.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 4 -->
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqFour">
+
+                                How do I request a return?
+
+                            </button>
+                        </h2>
+
+                        <div id="faqFour" class="accordion-collapse collapse" data-bs-parent="#contactFaq">
+
+                            <div class="accordion-body">
+                                Contact our support team with your order details
+                                and we'll guide you through the return process.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</section>
+
+<!-- ==================== CTA ==================== -->
+
+<section class="contact-cta">
+
+
+    <div class="container">
+
+        <div class="contact-cta-inner">
+
+            <div>
+                <p class="section-tag">Still Have Questions?</p>
+
+                <h2>
+                    We're just a message away.
+                </h2>
+
+                <p>
+                    Don't hesitate to reach out. We'd love to hear from you.
+                </p>
+            </div>
+
+            <a href="#contact-form" class="btn-light-custom">
+                Contact Us
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+
+        </div>
+
+    </div>
+    
+
+</section>
+
+<!-- ==================== FEATURES STRIP ==================== -->
+
+<section class="features-strip">
+
+    
+    <div class="container">
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="feature-item">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+
+                    <div>
+                        <h6>Fast Delivery</h6>
+                        <p>Reliable delivery across Nepal</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="feature-item">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-undo-alt"></i>
+                    </div>
+
+                    <div>
+                        <h6>Easy Returns</h6>
+                        <p>Simple and hassle-free returns</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="feature-item">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+
+                    <div>
+                        <h6>Secure Shopping</h6>
+                        <p>Your information stays protected</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="feature-item">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+
+                    <div>
+                        <h6>Friendly Support</h6>
+                        <p>We're always here to help</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock content %}
