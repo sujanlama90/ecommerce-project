@@ -2,8 +2,14 @@
 {% load static %}
 
 {% block css %}
+<!-- intl-tel -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/css/intlTelInput.css">
+<!-- alertfy -->
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
 
 <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+
 {% endblock css %}
 
 {% block content %}
@@ -13,7 +19,7 @@
 <section class="contact-hero">
     <div class="container">
         <div class="row align-items-center">
-        
+
             <div class="col-lg-7">
                 <div class="contact-hero-content">
                     <p class="section-tag">Get In Touch</p>
@@ -278,7 +284,7 @@
                         </div>
                     </div>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'contact' %}">
 
                         {% csrf_token %}
 
@@ -323,9 +329,8 @@
                                     </label>
 
                                     <div class="input-wrap">
-                                        <i class="fas fa-phone"></i>
-
-                                        <input type="tel" id="phone" name="phone" placeholder="+977 98XXXXXXXX">
+                                        <input type="tel" id="phone" name="phone" placeholder="+977 98XXXXXXXX" required>
+                                        <span id="error_msg" style="display: none;">Invalid phone number</span>
                                     </div>
                                 </div>
                             </div>
@@ -403,7 +408,7 @@
 <section class="why-contact-section section-py">
     <div class="container">
 
-    
+
         <div class="section-header text-center mb-5">
             <p class="section-tag">Why SajiloCart</p>
             <h2 class="section-title">Support that feels human</h2>
@@ -462,7 +467,7 @@
 
         </div>
     </div>
-    
+
 
 </section>
 
@@ -518,7 +523,7 @@
                         <div>
                             <span>Phone</span>
                             <strong>
-                                +977 9800000000
+                                +977 9709593901
                             </strong>
                         </div>
 
@@ -702,7 +707,7 @@
         </div>
 
     </div>
-    
+
 </section>
 
 <!-- ==================== CTA ==================== -->
@@ -734,7 +739,7 @@
         </div>
 
     </div>
-    
+
 
 </section>
 
@@ -742,7 +747,7 @@
 
 <section class="features-strip">
 
-    
+
     <div class="container">
 
         <div class="row g-4 justify-content-center">
@@ -825,3 +830,31 @@
 </section>
 
 {% endblock content %}
+
+{% block extrajs %}
+
+<!-- intl-tel -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/js/intlTelInput.min.js"></script>
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+{% if messages %}
+{% for message in messages %}
+<script>
+    alertify.set('notifier', 'position', 'top-right');
+    const tag = "{{ message.tags }}";
+    if (tag === "success") {
+        alertify.success("{{ message|escapejs }}");
+    } else if (tag === "error") {
+        alertify.error("{{ message|escapejs }}");
+    } else if (tag === "warning") {
+        alertify.warning("{{ message|escapejs }}");
+    } else {
+        alertify.message("{{ message|escapejs }}");
+    }
+</script>
+{% endfor %}
+{% endif %}
+<script src="{% static 'js/phone.js' %}"></script>
+{% endblock extrajs %}

@@ -63,7 +63,9 @@ class register(View):
             messages.error(request,'Password and confirm password do not match')
 
                     
+def log_out(request):
+    logout(request)
+    return redirect('index')
 
-            
         
 

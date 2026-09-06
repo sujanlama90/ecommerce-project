@@ -4,6 +4,14 @@ from django_ckeditor_5.fields import CKEditor5Field
 from datetime import timedelta
 from django.utils import timezone
 
+#contact model
+class Contact(models.Model):
+     name = models.CharField(max_length=200)
+     email = models.EmailField()
+     phone = models.CharField(max_length=20)
+     subject = models.CharField(max_length=200)
+     message = models.TextField()
+
 class OfferProduct(models.Model):
     title =models.CharField( max_length=200)
     desc = models.TextField()
