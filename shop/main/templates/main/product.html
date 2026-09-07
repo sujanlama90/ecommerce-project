@@ -1,4 +1,4 @@
-{% for i in product %}
+{% for i in data %}
 <div class="col-sm-6 col-xl-4">
     <div class="product-card">
         <div class="product-image-area">
@@ -8,7 +8,9 @@
 
             <div class="product-actions">
                 <button class="action-btn"><i class="fas fa-heart"></i></button>
-                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                <a href="{% url 'product_detail' i.id %}"> <button class="action-btn"><i
+                            class="fas fa-eye"></i></button>
+                </a>
                 <button class="action-btn"><i class="fas fa-share-alt"></i></button>
             </div>
             <img src="{{i.image.url}}" alt="{{i.image.name}}">
@@ -25,3 +27,70 @@
     </div>
 </div>
 {% endfor %}
+
+<nav aria-label="Page navigation">
+    <ul class="pagination float-end">
+
+        <!-- Previous Button -->
+        {% if data.has_previous %}
+        <li class="page-item">
+            <a class="page-link" hx-get="?page={{ data.previous_page_number }}" hx-target="#product_container"
+                hx-swap="innerHTML">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+
+
+        <!-- First Page -->
+        {% if data.number > 3 %}
+        <li class="page-item">
+            <a class="page-link" hx-get="?page=1" hx-target="#product_container" hx-swap="innerHTML">
+                1
+            </a>
+        </li>
+
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        {% endif %}
+
+
+        <!-- Pages Around Current Page -->
+        {% for n in num %}
+        {% if n >= data.number|add:'-2' and n <= data.number|add:'2' %} <li class="page-item">
+            <a class="page-link {% if data.number == n %}bg-warning{% endif %}" hx-get="?page={{ n }}"
+                hx-target="#product_container" hx-swap="innerHTML">
+                {{ n }}
+            </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+
+            <!-- Last Page -->
+            {% if data.number < data.paginator.num_pages|add:'-2' %} <li class="page-item disabled">
+                <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link" hx-get="?page={{ data.paginator.num_pages }}" hx-target="#product_container"
+                        hx-swap="innerHTML">
+                        {{ data.paginator.num_pages }}
+                    </a>
+                </li>
+                {% endif %}
+
+
+                <!-- Next Button -->
+                {% if data.has_next %}
+                <li class="page-item">
+                    <a class="page-link" hx-get="?page={{ data.next_page_number }}" hx-target="#product_container"
+                        hx-swap="innerHTML">
+                        Next
+                    </a>
+                </li>
+                {% endif %}
+
+    </ul>
+</nav>

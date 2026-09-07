@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from .models import *
 from django.db.models import Count,Prefetch
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
     offer = OfferProduct.objects.filter(is_available=True)
@@ -10,14 +11,27 @@ def index(request):
             queryset=SubCategory.objects.annotate(product_count=Count('product'))))
 
     subid = request.GET.get('subcategory')
-    if subid:
+    min = request.GET.get('min')
+    max = request.GET.get('max')
+
+    if subid and min and max:
+        product = Product.objects.filter(subcategory=subid, price__range =(min,max))
+    elif subid:
         product = Product.objects.filter(subcategory=subid)
     else:
       product = Product.objects.all()
+
+    paginator = Paginator(product,2)
+    page_n = request.GET.get('page')
+    data =paginator.get_page(page_n)
+    total = data.paginator.num_pages
+
     context={
         'offer' :offer,
         'category': category,
-        "product" : product
+        "product" : product,
+        'data':data,
+        'num':[i+1 for i in range(total )]
 
     }
 
@@ -44,3 +58,10 @@ def contact(request):
 
 def about(request):
     return render(request,'main/about.html')
+
+def product_detail(request,id):
+    product = get_object_or_404(Product,id=id)
+    contex ={
+        'product':product
+    }
+    return render(request,'main/product_detail.html',contex)

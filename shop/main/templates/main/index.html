@@ -105,8 +105,8 @@
                                 <div id="{{ i.id }}" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
                                     <div class="accordion-body px-0 py-1">
                                         {% for j in i.subcategory_set.all %}
-                                        <a hx-get="?subcategory={{j.id}}" hx-target="#product_container"
-                                            hx-swap="innerHTML" class="sub-cat-link">
+                                        <a hx-get="?subcategory={{j.id}}" hx-push-url="true"
+                                            hx-target="#product_container" hx-swap="innerHTML" class="sub-cat-link">
                                             <span>{{ j.title }}</span>
                                             <span class="count">({{j.product_count}})</span>
                                         </a>
@@ -119,21 +119,24 @@
                     </div>
 
                     <!-- Price Filter -->
-                    <div class="sidebar-widget">
-                        <h4 class="widget-title">Filter by Price</h4>
-                        <div class="price-inputs">
-                            <div class="price-input-group">
-                                <label>Min</label>
-                                <input type="number" value="0" placeholder="$0">
+                    <form hx-get="{% url 'index' %}" hx-target="#product_container" hx-swap="innerHTML">
+                        <div class="sidebar-widget">
+                            <h4 class="widget-title">Filter by Price</h4>
+                            <div class="price-inputs">
+                                <div class="price-input-group">
+                                    <label>Min</label>
+                                    <input type="number" name="min" value="1000" placeholder="Rs 0">
+                                </div>
+                                <div class="price-sep">—</div>
+                                <div class="price-input-group">
+                                    <label>Max</label>
+                                    <input type="hidden" value="{{request.GET.subcategory}}" name="subcategory">
+                                    <input type="number" name="max" value="3000" placeholder="Rs 3000">
+                                </div>
                             </div>
-                            <div class="price-sep">—</div>
-                            <div class="price-input-group">
-                                <label>Max</label>
-                                <input type="number" value="3000" placeholder="$3000">
-                            </div>
+                            <button type="submit" class="btn-filter">Apply Filter</button>
                         </div>
-                        <button class="btn-filter">Apply Filter</button>
-                    </div>
+                    </form>
 
                     <!-- Brands -->
                     <div class="sidebar-widget">
