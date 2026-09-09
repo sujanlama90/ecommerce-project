@@ -10,9 +10,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1',
+).split(',')
 
 # Application definition
 
@@ -123,13 +126,13 @@ MEDIA_URL='/media/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
-
-
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 #cloudinary
 CLOUDINARY_STORAGE = {
 'CLOUD_NAME': config('cloud_name'),
@@ -248,3 +251,4 @@ CKEDITOR_5_CONFIGS = {
 
 # Define a constant in settings.py to specify file upload permissions
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  
+

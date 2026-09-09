@@ -31,7 +31,7 @@ def index(request):
         'category': category,
         "product" : product,
         'data':data,
-        'num':[i+1 for i in range(total )]
+        'num':[i+1 for i in range(total)]
 
     }
 
