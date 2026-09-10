@@ -3,7 +3,6 @@ import os
 from decouple import config
 import cloudinary
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,6 +19,7 @@ ALLOWED_HOSTS = config(
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -252,3 +252,58 @@ CKEDITOR_5_CONFIGS = {
 # Define a constant in settings.py to specify file upload permissions
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  
 
+JAZZMIN_SETTINGS = {
+
+    "site_brand": "Sajilo Cart",
+
+    "welcome_sign": "Welcome to E-Commerce Management Portal",
+
+    # Search model
+    "search_model": "main.Product",
+
+    # Custom CSS
+    "custom_css": "css/jazzmin_custom.css",
+
+    "site_logo": "images/logo.png",
+
+    # Custom icons
+    "icons": {
+
+        # Authentication
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+
+        # Main app models
+        "main.Contact": "fas fa-address-book",
+
+        "main.OfferProduct": "fas fa-tags",
+
+        "main.Category": "fas fa-list",
+
+        "main.SubCategory": "fas fa-list-alt",
+
+        "main.Product": "fas fa-box",
+
+        "main.ImageProduct": "fas fa-images",
+    },
+
+      "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Support", "url": "https://github.com/sujanlama90", "new_window": True},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "main.Product"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "main"},
+    ],
+
+
+    # Enable Jazzmin UI builder
+    "show_ui_builder": True,
+}

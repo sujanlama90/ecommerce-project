@@ -32,9 +32,7 @@ def index(request):
         "product" : product,
         'data':data,
         'num':[i+1 for i in range(total)]
-
     }
-
     if request.headers.get('HX-Request'):
         return render(request,'main/product.html',context)
     
