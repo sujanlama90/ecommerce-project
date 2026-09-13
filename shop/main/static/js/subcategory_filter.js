@@ -1,37 +1,92 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const categorySelect = document.querySelector('#id_category');
-    const subCategorySelect = document.querySelector('#id_subcategory');
+document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("id_category");
+    const subcategorySelect = document.getElementById("id_subcategory");
 
-    if (!categorySelect || !subCategorySelect) return;
+    if (!categorySelect || !subcategorySelect) {
+        return;
+    }
 
-    const originalOptions = Array.from(subCategorySelect.options).map(option => {
-        const match = option.textContent.match(/\[Cat:(\d+)\]$/); // look at the END of text
-        const categoryId = match ? match[1] : null;
-        const label = match ? option.textContent.replace(/\s*\[Cat:\d+\]$/, '') : option.textContent;
-
+    // Save the original options, including data-category
+    const originalOptions = Array.from(
+        subcategorySelect.options
+    ).map(function (option) {
         return {
             value: option.value,
-            label: label,
-            categoryId: categoryId,
+            text: option.textContent,
+            category: option.getAttribute("data-category"),
         };
     });
 
-    function updateSubCategories() {
-        const selectedCategoryId = categorySelect.value;
-        subCategorySelect.innerHTML = '';
+    function filterSubcategories() {
+        const selectedCategory = categorySelect.value;
+        const oldSubcategory = subcategorySelect.value;
 
-        const filtered = originalOptions.filter(opt => {
-            return opt.categoryId === selectedCategoryId || opt.categoryId === null;
+        // Remove all existing options
+        subcategorySelect.innerHTML = "";
+
+        // Add empty option
+        const emptyOption = new Option(
+            "---------",
+            "",
+            false,
+            false
+        );
+
+        subcategorySelect.appendChild(emptyOption);
+
+        // Add only subcategories belonging to selected category
+        originalOptions.forEach(function (optionData) {
+            if (
+                optionData.value &&
+                optionData.category === selectedCategory
+            ) {
+                const option = new Option(
+                    optionData.text,
+                    optionData.value,
+                    false,
+                    optionData.value === oldSubcategory
+                );
+
+                option.setAttribute(
+                    "data-category",
+                    optionData.category
+                );
+
+                subcategorySelect.appendChild(option);
+            }
         });
 
-        filtered.forEach(opt => {
-            const option = document.createElement('option');
-            option.value = opt.value;
-            option.textContent = opt.label;
-            subCategorySelect.appendChild(option);
+        // Clear old selection if it does not belong to selected category
+        const exists = Array.from(
+            subcategorySelect.options
+        ).some(function (option) {
+            return option.value === oldSubcategory;
         });
+
+        if (!exists) {
+            subcategorySelect.value = "";
+        }
+
+        // Update Jazzmin Select2
+        if (window.jQuery) {
+            window.jQuery(subcategorySelect).trigger("change");
+        }
     }
 
-    categorySelect.addEventListener('change', updateSubCategories);
-    updateSubCategories();
+    // Normal Django change event
+    categorySelect.addEventListener(
+        "change",
+        filterSubcategories
+    );
+
+    // Jazzmin/Select2 change event
+    if (window.jQuery) {
+        window.jQuery(categorySelect).on(
+            "change",
+            filterSubcategories
+        );
+    }
+
+    // Filter when the page first loads
+    filterSubcategories();
 });

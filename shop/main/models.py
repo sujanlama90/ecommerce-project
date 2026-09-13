@@ -35,7 +35,7 @@ class SubCategory(models.Model):
     category=models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.title} [Cat:{self.category.id}]"
+        return f"{self.title}"
 
 class Product(models.Model):
     name=models.CharField(max_length=200)
@@ -50,6 +50,10 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now_add=True)
 
+
+    def __str__(self):
+         return self.name
+
     def save(self,*args, **kwargs):
             self.name = self.name.capitalize()
             self.price = self.mark_price*(1-self.discount_percent/100)
@@ -62,3 +66,16 @@ class Product(models.Model):
 class ImageProduct(models.Model):
       image = CloudinaryField('image')
       product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='images')
+
+class ProductVariant(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='variants'
+    )
+    size = models.CharField(max_length=20)
+    color = models.CharField(max_length=50)
+    stock = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.size} - {self.color}"

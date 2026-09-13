@@ -32,7 +32,11 @@ EXTERNAL_APPS =[
   'cloudinary_storage',
   'django_ckeditor_5',
     'main',
-    'account',
+    'accounts',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'social_django',
 ]
 
 INSTALLED_APPS.extend(EXTERNAL_APPS)
@@ -45,7 +49,38 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
+
+LOGIN_URL="log_in"
+LOGIN_REDIRECT_URL ="index"
+LOGOUT_URL="log_out"
+LOGOUT_REDIRECT_URL ="log_in"
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+SOCIAL_AUTH_PIPELINE = [
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+
+    'accounts.pipeline.associate_by_email',
+
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+]
+
+# google oauth
+SOCIAL_AUTH_URL_NAMESPACE = config('SOCIAL_AUTH_URL_NAMESPACE')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 ROOT_URLCONF = 'shop.urls'
 
@@ -67,7 +102,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shop.wsgi.application'
 
 # customizing auth
-AUTH_USER_MODEL='account.CustomUser'
+AUTH_USER_MODEL='accounts.CustomUser'
 
 
 # Database
@@ -180,16 +215,21 @@ customColorPalette = [
         },
     ]
 
-CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
-CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
+# CKEditor 5
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
+
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': {
-            'items': ['heading', '|', 'bold', 'italic', 'link',
-                      'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
-                    }
-
+            'items': [
+                'heading', '|',
+                'bold', 'italic', 'link',
+                'bulletedList', 'numberedList',
+                'blockQuote', 'imageUpload',
+            ],
+        },
     },
+
     'extends': {
         'blockToolbar': [
             'paragraph', 'heading1', 'heading2', 'heading3',
@@ -198,59 +238,96 @@ CKEDITOR_5_CONFIGS = {
             '|',
             'blockQuote',
         ],
+
         'toolbar': {
-            'items': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-                      'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-                    'insertTable',
-                    ],
-            'shouldNotGroupWhenFull': 'true'
+            'items': [
+                'heading', '|',
+                'outdent', 'indent', '|',
+                'bold', 'italic', 'link', 'underline',
+                'strikethrough', 'code',
+                'subscript', 'superscript', 'highlight', '|',
+                'codeBlock', 'sourceEditing', 'insertImage',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'blockQuote', 'imageUpload', '|',
+                'fontSize', 'fontFamily', 'fontColor',
+                'fontBackgroundColor', 'mediaEmbed',
+                'removeFormat', 'insertTable',
+            ],
+            'shouldNotGroupWhenFull': True,
         },
+
         'image': {
-            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+            'toolbar': [
+                'imageTextAlternative', '|',
+                'imageStyle:alignLeft',
+                'imageStyle:alignRight',
+                'imageStyle:alignCenter',
+                'imageStyle:side', '|',
+            ],
             'styles': [
                 'full',
                 'side',
                 'alignLeft',
                 'alignRight',
                 'alignCenter',
-            ]
-
+            ],
         },
+
         'table': {
-            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
-            'tableProperties', 'tableCellProperties' ],
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableProperties',
+                'tableCellProperties',
+            ],
             'tableProperties': {
                 'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette
+                'backgroundColors': customColorPalette,
             },
             'tableCellProperties': {
                 'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette
-            }
+                'backgroundColors': customColorPalette,
+            },
         },
-        'heading' : {
+
+        'heading': {
             'options': [
-                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
-            ]
-        }
+                {
+                    'model': 'paragraph',
+                    'title': 'Paragraph',
+                    'class': 'ck-heading_paragraph',
+                },
+                {
+                    'model': 'heading1',
+                    'view': 'h1',
+                    'title': 'Heading 1',
+                    'class': 'ck-heading_heading1',
+                },
+                {
+                    'model': 'heading2',
+                    'view': 'h2',
+                    'title': 'Heading 2',
+                    'class': 'ck-heading_heading2',
+                },
+                {
+                    'model': 'heading3',
+                    'view': 'h3',
+                    'title': 'Heading 3',
+                    'class': 'ck-heading_heading3',
+                },
+            ],
+        },
     },
+
     'list': {
         'properties': {
-            'styles': 'true',
-            'startIndex': 'true',
-            'reversed': 'true',
-        }
-    }
-}
-
-# Define a constant in settings.py to specify file upload permissions
-CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  
+            'styles': True,
+            'startIndex': True,
+            'reversed': True,
+        },
+    },
+} 
 
 JAZZMIN_SETTINGS = {
 
@@ -263,7 +340,6 @@ JAZZMIN_SETTINGS = {
 
     # Custom CSS
     "custom_css": "css/jazzmin_custom.css",
-
     "site_logo": "images/logo.png",
 
     # Custom icons
@@ -286,6 +362,7 @@ JAZZMIN_SETTINGS = {
         "main.Product": "fas fa-box",
 
         "main.ImageProduct": "fas fa-images",
+        "main.ProductVariant": "fas fa-box"
     },
 
       "topmenu_links": [
@@ -302,6 +379,7 @@ JAZZMIN_SETTINGS = {
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "main"},
     ],
+    "copyright": "Sajilo Cart",
 
 
     # Enable Jazzmin UI builder

@@ -57,9 +57,33 @@ def contact(request):
 def about(request):
     return render(request,'main/about.html')
 
-def product_detail(request,id):
-    product = get_object_or_404(Product,id=id)
-    contex ={
-        'product':product
+@login_required(login_url='log_in')
+def product_detail(request, id):
+
+    product = get_object_or_404(Product, id=id)
+
+    # Get unique sizes available for this product
+    sizes = (
+        product.variants
+        .values_list('size', flat=True)
+        .distinct()
+    )
+
+    # Get unique colors available for this product
+    colors = (
+        product.variants
+        .values_list('color', flat=True)
+        .distinct()
+    )
+
+    context = {
+        'product': product,
+        'sizes': sizes,
+        'colors': colors,
     }
-    return render(request,'main/product_detail.html',contex)
+
+    return render(
+        request,
+        'main/product_detail.html',
+        context
+    )
