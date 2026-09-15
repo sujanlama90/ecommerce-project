@@ -15,11 +15,19 @@ from .form import ProfileForm
 class log_in(View):
 
     def get(self, request):
-        return render(request, 'account/login.html')
+        next_url = request.GET.get('next', request.POST.get('next', ''))
+        context ={
+            'next_url':next_url
+        }
+
+        return render(request, 'account/login.html',context)
 
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')
+        remember_me = request.POST.get('checkbox')
+        next_url = request.POST.get('next', '')
+
 
         if not CustomUser.objects.filter(username=username).exists():
             messages.error(request, 'Username is not registered yet.')
@@ -33,10 +41,14 @@ class log_in(View):
 
         if user is not None:
             login(request, user)
-            return redirect('index')
-
+            if remember_me:
+                request.session.set_expiry(36000)
+            else:
+                request.session.set_expiry(0)
+            return redirect(next_url if next_url else 'index')
         messages.error(request, 'Invalid Password')
         return redirect('log_in')
+       
 
 
 class register(View):

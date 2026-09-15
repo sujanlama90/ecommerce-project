@@ -88,10 +88,12 @@
                         </div>
                         <input type="password" name="password" class="form-control" id="password"
                             placeholder="Enter your password" required>
+                        <input type="hidden" value="{{next_url}}" name="next">
+
                     </div>
 
                     <div class="form-check mb-4 mt-3">
-                        <input class="form-check-input" type="checkbox" id="remember">
+                        <input class="form-check-input" type="checkbox" name="checkbox" id="remember">
                         <label class="form-check-label" for="remember">
                             Keep me signed in on this device
                         </label>

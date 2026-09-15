@@ -20,13 +20,11 @@
                     </div>
                     <div class="col-md-4 text-end">
                         {% if request.user.profile.profile_picture %}
-                            <img src="{{ request.user.profile.profile_picture.url }}" 
-                                 class="avatar avatar-xxl rounded-circle shadow-lg"
-                                 alt="Profile Picture">
+                        <img src="{{ request.user.profile.profile_picture.url }}"
+                            class="avatar avatar-xxl rounded-circle shadow-lg" alt="Profile Picture">
                         {% else %}
-                            <img src="{% static 'images/profile.jpg' %}" 
-                                 class="avatar avatar-xxl rounded-circle shadow-lg"
-                                 alt="Default Profile">
+                        <img src="{% static 'images/user.png' %}" class="avatar avatar-xxl rounded-circle shadow-lg"
+                            alt="Default Profile">
                         {% endif %}
                     </div>
                 </div>
@@ -104,11 +102,16 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Total</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Date</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Status</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Total</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,7 +171,7 @@
 {% block scripts %}
 <script>
     // Dashboard-specific JavaScript can go here
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Initialize any dashboard-specific plugins or functionality
     });
 </script>
