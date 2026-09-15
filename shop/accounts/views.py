@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from accounts.models import CustomUser
+from accounts.models import CustomUser,Profile
 from django.views import View
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +8,8 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.auth.forms import PasswordChangeForm
-
-
-
+from django.contrib.auth.decorators import login_required
+from .form import ProfileForm
 # Create your views here.
 
 class log_in(View):
@@ -77,24 +76,36 @@ def log_out(request):
     logout(request)
     return redirect('index')
 
+login_required(login_url='log_in')
+def profile_dashboard(request):
+    return render(request,'profile/dashboard.html')
 
-def password_change(request):
-        # Create password change form for the current user
-    form = PasswordChangeForm(user=request.user)
-
-    # Check whether password change form was submitted
+login_required(login_url='log_in')
+def profile(request):
+    profile,created = Profile.objects.get_or_create(user=request.user)
+    form = ProfileForm(instance=profile)
     if request.method == 'POST':
-
-        # Create form again with submitted data
-        form = PasswordChangeForm(user=request.user,data=request.POST )
-
-        # Check whether form data is valid
+        form = ProfileForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():
-            # Save the new password
             form.save()
-            # Redirect user to login page
+            return redirect('profile')
+
+    form1 = PasswordChangeForm(user=request.user)
+     # Check whether password change form was submitted
+    if request.method == 'POST':
+    
+            # Create form again with submitted data
+        form1 = PasswordChangeForm(user=request.user,data=request.POST )
+    
+            # Check whether form data is valid
+        if form1.is_valid():
+                # Save the new password
+            form1.save()
+                # Redirect user to login page
             return redirect('log_in')
-    return render(request,'account/password_change.html')
-
         
-
+    context ={
+        'form':form,
+        'form1':form1
+    }
+    return render(request,'profile/profile.html',context)

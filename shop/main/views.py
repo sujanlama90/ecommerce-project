@@ -21,7 +21,7 @@ def index(request):
     else:
       product = Product.objects.all()
 
-    paginator = Paginator(product,2)
+    paginator = Paginator(product,6)
     page_n = request.GET.get('page')
     data =paginator.get_page(page_n)
     total = data.paginator.num_pages

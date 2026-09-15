@@ -116,6 +116,7 @@
                                 aria-expanded="false">
                                 <i class="fas fa-user"></i>
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-end">
 
                                 {% if user.is_authenticated %}
@@ -130,14 +131,13 @@
                                     <hr class="dropdown-divider">
                                 </li>
 
-                                <!-- Change Password -->
+                                <!-- My Account -->
                                 <li>
-                                    <a class="dropdown-item" href="{% url 'password_chnage' %}">
-                                        <i class="fas fa-key me-2 text-muted"></i>
-                                        Change Password
+                                    <a class="dropdown-item" href="{% url 'profile_dashboard' %}">
+                                        <i class="fas fa-user-circle me-2 text-muted"></i>
+                                        My Account
                                     </a>
                                 </li>
-
                                 <!-- Logout -->
                                 <li>
                                     <a class="dropdown-item text-danger" href="{% url 'log_out' %}">
@@ -166,14 +166,18 @@
 
                             </ul>
                         </div>
+
                         <a href="{% url 'cart' %}" class="icon-btn position-relative" aria-label="Shopping cart">
                             <i class="fas fa-shopping-bag"></i>
                             <span class="cart-badge">3</span>
                         </a>
+
                         <a href="{% url 'index' %}#wishlist" class="icon-btn" aria-label="Wishlist">
                             <i class="fas fa-heart"></i>
                         </a>
+
                     </div>
+
                 </div>
             </div>
         </nav>
