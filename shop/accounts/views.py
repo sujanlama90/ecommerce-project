@@ -96,25 +96,18 @@ login_required(login_url='log_in')
 def profile(request):
     profile,created = Profile.objects.get_or_create(user=request.user)
     form = ProfileForm(instance=profile)
+    form1 = PasswordChangeForm(user=request.user)
     if request.method == 'POST':
+        form1 = PasswordChangeForm(user=request.user,data=request.POST )
+        if form1.is_valid():
+            form1.save()
+            return redirect('log_in')
+
+        # profile update
         form = ProfileForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
-
-    form1 = PasswordChangeForm(user=request.user)
-     # Check whether password change form was submitted
-    if request.method == 'POST':
-    
-            # Create form again with submitted data
-        form1 = PasswordChangeForm(user=request.user,data=request.POST )
-    
-            # Check whether form data is valid
-        if form1.is_valid():
-                # Save the new password
-            form1.save()
-                # Redirect user to login page
-            return redirect('log_in')
+            return redirect('profile')      
         
     context ={
         'form':form,
