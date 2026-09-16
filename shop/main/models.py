@@ -2,6 +2,7 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 from django_ckeditor_5.fields import CKEditor5Field
 from datetime import timedelta
+from accounts.models import CustomUser
 from django.utils import timezone
 
 #contact model
@@ -79,3 +80,11 @@ class ProductVariant(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.size} - {self.color}"
+
+
+class Review(models.Model):
+     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+     rating = models.PositiveSmallIntegerField()
+     feedback = models.TextField()
+     created_at = models.DateField(auto_now=True)

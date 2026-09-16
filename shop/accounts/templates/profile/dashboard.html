@@ -21,10 +21,12 @@
                     <div class="col-md-4 text-end">
                         {% if request.user.profile.profile_picture %}
                         <img src="{{ request.user.profile.profile_picture.url }}"
-                            class="avatar avatar-xxl rounded-circle shadow-lg" alt="Profile Picture">
+                            class="avatar avatar-xxl rounded-circle shadow-lg object-fit-cover"
+                            style="width: 120px; height: 120px;" alt="Profile Picture">
                         {% else %}
-                        <img src="{% static 'images/user.png' %}" class="avatar avatar-xxl rounded-circle shadow-lg"
-                            alt="Default Profile">
+                        <img src="{% static 'images/user.png' %}"
+                            class="avatar avatar-xxl rounded-circle shadow-lg object-fit-cover"
+                            style="width: 120px; height: 120px;" alt="Default Profile">
                         {% endif %}
                     </div>
                 </div>

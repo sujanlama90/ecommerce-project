@@ -484,8 +484,8 @@
 
                     <!-- ================= REVIEW FORM ================= -->
 
-                    <form class="review-form">
-
+                    <form method="post" action="" class="review-form">
+                        {% csrf_token %}
 
                         <div class="form-group rating-group">
 
@@ -517,37 +517,10 @@
                                 Your message
                             </label>
 
-                            <textarea class="form-control" rows="5">
+                            <textarea name="feedback" class="form-control" rows="5">
                             </textarea>
 
                         </div>
-
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-
-                                    <input type="text" name="name" class="form-control" placeholder="Name*">
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-
-                                    <input type="email" name="email" class="form-control" placeholder="Email Id*">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
 
                         <button type="submit" class="round-black-btn">
 

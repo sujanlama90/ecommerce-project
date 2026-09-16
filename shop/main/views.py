@@ -4,6 +4,7 @@ from .models import *
 from django.db.models import Count,Prefetch
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from .form import ReviewForm
 # Create your views here.
 def index(request):
     offer = OfferProduct.objects.filter(is_available=True)
@@ -76,10 +77,21 @@ def product_detail(request, id):
         .distinct()
     )
 
+    form = ReviewForm()
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.product = product
+            review.save()
+            return redirect('product_detail',id=product.id)
+
     context = {
         'product': product,
         'sizes': sizes,
         'colors': colors,
+        'form':form
     }
 
     return render(
