@@ -92,7 +92,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{% url 'cart' %}"><i
+                                <li><a class="dropdown-item" href="{% url 'cart_detail' %}"><i
                                             class="fas fa-shopping-cart me-2 text-muted"></i>Cart</a></li>
                             </ul>
                         </li>
@@ -177,9 +177,9 @@
                             </ul>
                         </div>
 
-                        <a href="{% url 'cart' %}" class="icon-btn position-relative" aria-label="Shopping cart">
+                        <a href="{% url 'cart_detail' %}" class="icon-btn position-relative" aria-label="Shopping cart">
                             <i class="fas fa-shopping-bag"></i>
-                            <span class="cart-badge">3</span>
+                            <span class="cart-badge">{{request.session.cart|length}}</span>
                         </a>
 
                         <a href="{% url 'index' %}#wishlist" class="icon-btn" aria-label="Wishlist">

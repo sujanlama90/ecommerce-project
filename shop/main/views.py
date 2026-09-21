@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from .models import *
-from django.db.models import Count,Prefetch
+from django.db.models import Count,Prefetch,Avg
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .form import ReviewForm
+from cart.cart import Cart
 # Create your views here.
 def index(request):
     offer = OfferProduct.objects.filter(is_available=True)
@@ -39,8 +40,6 @@ def index(request):
     
     return render(request,'main/index.html',context)
 
-def cart(request):
-    return render(request,'main/cart.html')
 
 @login_required(login_url='log_in')
 def contact(request):
@@ -62,8 +61,9 @@ def about(request):
 def product_detail(request, id):
 
     product = get_object_or_404(Product, id=id)
-
-    # Get unique sizes available for this product
+    reviews = product.reviews.all()
+    av = reviews.aggregate(avg_rating=Avg('rating'))    # Get unique sizes available for this product
+    related_product =Product.objects.filter(category=product.category).exclude(id=product.id)
     sizes = (
         product.variants
         .values_list('size', flat=True)
@@ -91,7 +91,11 @@ def product_detail(request, id):
         'product': product,
         'sizes': sizes,
         'colors': colors,
-        'form':form
+        'form':form,
+        'reviews':reviews,
+        'range':range(1,6),
+        'av': round(av['avg_rating'], 1) if av['avg_rating'] is not None else 0,
+        'related_product':related_product
     }
 
     return render(
@@ -99,3 +103,53 @@ def product_detail(request, id):
         'main/product_detail.html',
         context
     )
+
+
+'''=======================================================================================================
+                                  ADD TO CART
+
+============================================================================================================
+'''
+
+@login_required(login_url='log_in')
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("index")
+
+
+@login_required(login_url='log_in')
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url='log_in')
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url='log_in')
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url='log_in')
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+@login_required(login_url='log_in')
+def cart_detail(request):
+    return render(request, 'main/cart.html')

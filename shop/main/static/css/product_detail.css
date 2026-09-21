@@ -388,6 +388,13 @@
     color: #fff;
 }
 
+.reviewer-avatar img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .reviewer-name {
     font-size: 0.94rem;
     font-weight: 700;
