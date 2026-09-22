@@ -155,7 +155,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=your-google-client-secret
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/sujanlama90/ecommerce-project.git
 cd e-commerce
 ```
 
