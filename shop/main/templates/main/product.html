@@ -13,7 +13,8 @@
                 </a>
                 <button class="action-btn"><i class="fas fa-share-alt"></i></button>
             </div>
-            <img src="{{i.image.url}}" alt="{{i.image.name}}">
+            <img src="{{i.image.url}}" alt="{{i.image.name}}"
+                style="width: 100%; height: 250px; object-fit: contain; display: block; background: #f5f5f5; padding: 10px; box-sizing: border-box;">
         </div>
         <div class="product-body">
             <div class="brand-tag">{{i.name}}</div>
@@ -22,7 +23,8 @@
         <div class="product-footer">
             <div class="product-price">Rs {{i.price}} <br> <span class="original">Rs
                     {{i.mark_price}} </span></div>
-            <a href="{% url 'cart_add' i.id %}"><button class="btn-add-cart"><i class="fas fa-bag-shopping"></i> Add</button></a>
+            <a href="{% url 'cart_add' i.id %}"><button class="btn-add-cart"><i class="fas fa-bag-shopping"></i>
+                    Add</button></a>
         </div>
     </div>
 </div>
