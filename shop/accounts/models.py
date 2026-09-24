@@ -1,10 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
+import uuid
 # Create your models here.
 class CustomUser(AbstractUser):
     phone=models.CharField(max_length=14, blank=True, default='')
     street_address=models.CharField(max_length=200, blank=True, default='')
+    email_verified = models.BooleanField(default=False)
+    email_verification_token = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False)
 
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,related_name='profile')

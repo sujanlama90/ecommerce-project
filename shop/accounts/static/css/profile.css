@@ -193,6 +193,65 @@
         word-break: break-word;
     }
 
+    /* Email status and verification action */
+    .detail-item:has(.fa-envelope) > div:last-child {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .detail-item:has(.fa-envelope) .detail-value {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px 9px;
+        line-height: 1.5;
+    }
+
+    .detail-item:has(.fa-envelope) .text-success,
+    .detail-item:has(.fa-envelope) .text-danger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 9px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .detail-item:has(.fa-envelope) .text-success {
+        color: #15803d !important;
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+    }
+
+    .detail-item:has(.fa-envelope) .text-danger {
+        color: #b45309 !important;
+        background: #fffbeb;
+        border-color: #fde68a;
+    }
+
+    .detail-item:has(.fa-envelope) .detail-value a {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        color: var(--profile-primary);
+        background: #eef2ff;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .detail-item:has(.fa-envelope) .detail-value a:hover {
+        color: #ffffff;
+        background: var(--profile-primary);
+        transform: translateY(-1px);
+    }
+
     .status-badge {
         display: inline-flex;
         align-items: center;

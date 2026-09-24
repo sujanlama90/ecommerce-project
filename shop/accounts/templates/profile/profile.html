@@ -104,11 +104,22 @@ Manage your account information and security preferences
                                     <div>
                                         <span class="detail-label">Email address</span>
                                         <span class="detail-value">
-                                            {{ request.user.email }}
-                                            <span class="status-badge">
-                                                <i class="fa-solid fa-circle"></i>
-                                                Unverified
+                                            Email:
+                                            {{ user.email }}
+
+                                            {% if user.email_verified %}
+                                            <span class="text-success">
+                                                ✓ Verified
                                             </span>
+                                            {% else %}
+                                            <span class="text-danger">
+                                                ✗ Not Verified
+                                            </span>
+
+                                            <a href="{% url 'send_verification_email' %}">
+                                                Verify Email
+                                            </a>
+                                            {% endif %}
                                         </span>
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from accounts.models import CustomUser,Profile
 from django.views import View
 from django.contrib.auth.password_validation import validate_password
@@ -10,6 +10,11 @@ from django.core.mail import send_mail
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .form import ProfileForm
+from django.urls import reverse
+from django.core.mail import EmailMultiAlternatives
+
+
+from .models import CustomUser
 # Create your views here.
 
 class log_in(View):
@@ -114,3 +119,83 @@ def profile(request):
         'form1':form1
     }
     return render(request,'profile/profile.html',context)
+
+"""================================================================================================================================================================================================
+                                                                        Account verfiy
+================================================================================================================================================================================================"""
+
+@login_required
+def send_verification_email(request):
+
+    user = request.user
+
+    # Already verified
+    if user.email_verified:
+        return redirect('profile')
+
+    # User doesn't have an email
+    if not user.email:
+        return redirect('profile')
+
+    # Create verification URL
+    verification_url = request.build_absolute_uri(
+        reverse(
+            'verify_email',
+            kwargs={
+                'token': user.email_verification_token
+            }
+        )
+    )
+
+    # Data for email templates
+    context = {
+        'user': user,
+        'verification_url': verification_url,
+    }
+
+    # Plain-text email
+    text_content = render_to_string(
+        'account/verification_email.txt',
+        context
+    )
+
+    # HTML email
+    html_content = render_to_string(
+        'account/verification_email.html',
+        context
+    )
+
+    # Create email
+    email = EmailMultiAlternatives(
+        subject='Verify your email - SajiloCart',
+        body=text_content,
+        from_email='support@sajilocart.com',
+        to=[user.email],
+    )
+
+    # Attach HTML version
+    email.attach_alternative(
+        html_content,
+        'text/html'
+    )
+
+    # Send email
+    email.send(fail_silently=False)
+
+    return redirect('profile')
+
+
+def verify_email(request, token):
+
+    user = get_object_or_404(
+        CustomUser,
+        email_verification_token=token
+    )
+
+    user.email_verified = True
+
+    user.save(
+        update_fields=['email_verified']
+    )
+
+    return redirect('profile')
