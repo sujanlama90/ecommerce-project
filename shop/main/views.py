@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .form import ReviewForm
 from cart.cart import Cart
+import hashlib
+import uuid
+import base64
+import json
+import hmac
 # Create your views here.
 def index(request):
     offer = OfferProduct.objects.filter(is_available=True)
@@ -110,6 +115,48 @@ def product_detail(request, id):
 
 ============================================================================================================
 '''
+def generate_signature(data, secret):
+    # signed_field_names must be included in the payload
+    signed_fields = data["signed_field_names"].split(",")
+    # Create message string in exact order
+    message = ",".join([f"{field}={data[field]}" for field in signed_fields])
+    signature = hmac.new(
+        secret.encode("utf-8"),
+        message.encode("utf-8"),
+        hashlib.sha256 #secure data with same fix length , no reveserd
+    ).digest() #bite code
+
+    return base64.b64encode(signature).decode("utf-8")
+
+
+@login_required(login_url='log_in')
+def cart_detail(request):
+    cart = request.session.get('cart')
+    product_code = "EPAYTEST"
+    secret_key = "8gBm/:&EnhH.1/q"
+    amount = 0
+    for item in cart.values():
+        amount += float(item['price'])*item['quantity']
+    amount = round(amount,2)
+    tax_amount = round(amount*0.13,2)
+    total_amount =round( amount + tax_amount,2)
+    data = {
+        "amount": amount,
+        "tax_amount": tax_amount,
+        "total_amount": total_amount,
+        "transaction_uuid": str(uuid.uuid4()),
+        "product_code": 'EPAYTEST',
+        "product_service_charge": 0,
+        "product_delivery_charge": 0,
+        "success_url": "http://127.0.0.1:8000/payments/success_url/",
+        "failure_url": "http://127.0.0.1:8000/payments/failure_url/",
+        "signed_field_names": "total_amount,transaction_uuid,product_code",
+        }
+
+    #algorithm : HMAC , SHA 256 bit
+    data['signature'] = generate_signature(data,secret_key)
+
+    return render(request, 'main/cart.html',data)
 
 @login_required(login_url='log_in')
 def cart_add(request, id):
@@ -149,7 +196,3 @@ def cart_clear(request):
     cart.clear()
     return redirect("cart_detail")
 
-
-@login_required(login_url='log_in')
-def cart_detail(request):
-    return render(request, 'main/cart.html')

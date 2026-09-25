@@ -1,0 +1,41 @@
+{% extends 'profile_dashboard.html' %}
+{% load static %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block page_title %}
+Profile
+{% endblock %}
+
+{% block page_subtitle %}
+Manage your account information and security preferences
+{% endblock %}
+
+{% block css %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/pw.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+{% endblock css %}
+
+{% block maincontent %}
+<h1>helllo sujan</h1>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/eye.js' %}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tooltipElements = document.querySelectorAll(
+            '[data-bs-toggle="tooltip"]'
+        );
+
+        tooltipElements.forEach(function (element) {
+            new bootstrap.Tooltip(element);
+        });
+    });
+</script>
+{% endblock %}

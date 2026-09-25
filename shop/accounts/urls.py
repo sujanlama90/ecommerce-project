@@ -13,6 +13,7 @@ urlpatterns = [
     # profile
     path('profile_dashboard/',profile_dashboard,name='profile_dashboard'),
     path('profile/',profile,name='profile'),
+    path("myorder/",myorder, name="myorder"),
     # email verification
      path('send-verification-email/',send_verification_email,name='send_verification_email'),
     path('verify-email/<uuid:token>/', verify_email,name='verify_email'),

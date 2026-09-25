@@ -66,23 +66,30 @@
                             </div>
                             <div class="cart-item-price">Rs. {{ value.price }}</div>
                             <div class="quantity-control" aria-label="Quantity for {{ value.name }}">
+                                {% if value.quantity > 1 %}
                                 <a href="{% url 'item_decrement' value.product_id %}"
                                     aria-label="Decrease quantity">−</a>
-                                <span>{{ value.quantity }}</span>
+                                {% else %}
+                                <span class="quantity-spacer" aria-hidden="true"></span>
+                                {% endif %}
+                                <span class="quantity-value">{{ value.quantity }}</span>
                                 <a href="{% url 'item_increment' value.product_id %}"
                                     aria-label="Increase quantity">+</a>
                             </div>
-                            <div class="cart-item-total">Rs. {{ value.price }}</div>
+                            <div class="cart-item-total">Rs. {{ value.price|multiply:value.quantity }}
+                            </div>
+
+                            <div class="cart_delete">
+                                <a href="{% url 'item_clear' key %}"><i class="fa-solid fa-xmark"></i></a>
+                            </div>
+
                         </article>
                         {% endfor %}
-
-
                     </div>
 
                     <div class="cart-actions">
                         <a href="{% url 'index' %}" class="continue-shopping"><i class="fas fa-arrow-left"
                                 aria-hidden="true"></i> Continue shopping</a>
-                        <button type="button" class="clear-cart">Clear cart</button>
                     </div>
 
                     <div class="cart-perks">
@@ -101,21 +108,48 @@
                             <p class="section-tag">Summary</p>
                             <h2>Order total</h2>
                         </div>
+                        {% with tax=cart_total_amount|multiply:0.13 %}
                         <div class="summary-lines">
-                            <div><span>Subtotal</span><strong>Rs. 10,797</strong></div>
+                            <div><span>Subtotal</span><strong>Rs. {{cart_total_amount}}</strong></div>
                             <div><span>Delivery</span><strong class="free-label">Free</strong></div>
-                            <div><span>Estimated tax</span><strong>Rs. 540</strong></div>
+                            <div><span>Estimated tax</span><strong>Rs. {{tax}}</strong></div>
                         </div>
                         <div class="promo-code">
                             <label for="promo-code">Have a promo code?</label>
                             <div class="promo-input"><input id="promo-code" type="text" placeholder="Enter code"><button
                                     type="button">Apply</button></div>
                         </div>
-                        <div class="summary-total"><span>Total</span><strong>Rs. 11,337</strong></div>
-                        <a href="#" class="checkout-button">Proceed to checkout <i class="fas fa-arrow-right"
-                                aria-hidden="true"></i></a>
+                        <div class="summary-total"><span>Total</span><strong>Rs. {{cart_total_amount|add:tax}}</strong>
+                        </div>
+                        <form class="payment-form" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form"
+                            method="POST">
+                            <input type="hidden" id="amount" name="amount" value="{{amount}}" required>
+                            <input type="hidden" id="tax_amount" name="tax_amount" value="{{tax_amount}}" required>
+                            <input type="hidden" id="total_amount" name="total_amount" value="{{total_amount}}"
+                                required>
+                            <input type="hidden" id="transaction_uuid" name="transaction_uuid"
+                                value="{{transaction_uuid}}" required>
+                            <input type="hidden" id="product_code" name="product_code" value="{{product_code}}"
+                                required>
+                            <input type="hidden" id="product_service_charge" name="product_service_charge" value="0"
+                                required>
+                            <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0"
+                                required>
+                            <input type="hidden" id="success_url" name="success_url" value="{{success_url}}" required>
+                            <input type="hidden" id="failure_url" name="failure_url" value="{{failure_url}}" required>
+                            <input type="hidden" id="signed_field_names" name="signed_field_names"
+                                value="{{signed_field_names}}" required>
+                            <input type="hidden" id="signature" name="signature" value="{{signature}}" required>
+                            <button class="checkout-button" type="submit">
+                                <img src="{% static 'images/esewa.png' %}" alt="eSewa">
+                                <span>Pay securely with eSewa</span>
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
                         <p class="secure-note"><i class="fas fa-lock" aria-hidden="true"></i> Secure payment powered by
                             SajiloCart</p>
+                        {% endwith %}
                     </div>
                 </aside>
             </div>

@@ -32,12 +32,13 @@ EXTERNAL_APPS =[
   'cloudinary_storage',
   'django_ckeditor_5',
     'main',
+    'payments',
     'accounts',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'social_django',
-    'cart'
+    'cart',
 ]
 
 INSTALLED_APPS.extend(EXTERNAL_APPS)
