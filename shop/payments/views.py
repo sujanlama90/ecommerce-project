@@ -4,6 +4,8 @@ import base64
 import json
 import hmac
 import hashlib
+from .models import *
+
 # Create your views here.
 def success_url(request):
     encoded_data = request.GET.get("data")
@@ -38,7 +40,24 @@ def success_url(request):
     txn,created=Transaction.objects.get_or_create(transaction_uuid=payload['transaction_uuid'],
     transaction_code=payload['transaction_code'],product_code=payload['product_code'],
     total_amount=payload['total_amount'],user=request.user,status=payload['status'])
-    return render(request,'payments/success_esewa.html')
+
+    order ,created= Order.objects.get_or_create(
+    transaction_code=payload['transaction_code'],product_code=payload['product_code'],
+    total_amount=payload['total_amount'],user=request.user,status=payload['status'])
+
+    cart = request.session.get('cart')
+    for item in cart.values():
+        OrderItem.objects.create(
+            order =order,
+            product_id = item['product_id'] ,
+            price = item['price'],
+            quantity = item['quantity']
+            )
+    request.session['cart'] = {}
+
+    return render(request,'payments/success_esewa.html',{'txn':txn})
+
+
 
 def failure_url(request):
     return render(request,'payments/failure_esewa.html')

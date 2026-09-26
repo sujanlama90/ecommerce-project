@@ -2,40 +2,108 @@
 {% load static %}
 
 {% block title %}
-My Profile
+My Orders
 {% endblock %}
 
 {% block page_title %}
-Profile
+My Orders
 {% endblock %}
 
 {% block page_subtitle %}
-Manage your account information and security preferences
+Track your recent purchases
 {% endblock %}
 
 {% block css %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/pw.css' %}">
-<link rel="stylesheet" href="{% static 'css/profile.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
 {% endblock css %}
 
 {% block maincontent %}
-<h1>helllo sujan</h1>
+<section class="orders-page" aria-labelledby="orders-heading">
+    <header class="orders-heading">
+        <div>
+            <p class="orders-eyebrow">ACCOUNT</p>
+            <h1 id="orders-heading">Your orders</h1>
+            <p class="orders-intro">A record of your purchases and their latest status.</p>
+        </div>
+        <div class="orders-count">
+            <span class="orders-count__number">{{ orders|length }}</span>
+            <span class="orders-count__label">{% if orders|length == 1 %}order{% else %}orders{% endif %}</span>
+        </div>
+    </header>
+
+    {% if orders %}
+    <div class="orders-list">
+        {% for order in orders %}
+        <article class="order-panel">
+            <header class="order-panel__header">
+                <div class="order-reference">
+                    <span class="order-reference__label">Order</span>
+                    <h2>{{ order.id }}</h2>
+                </div>
+                <div class="order-meta">
+                    <span class="order-meta__label">Placed</span>
+                    <time datetime="{{ order.created_at|date:'c' }}">{{ order.created_at|date:'M j, Y' }}</time>
+                </div>
+                <div class="order-meta order-meta--transaction">
+                    <span class="order-meta__label">Transaction</span>
+                    <span class="order-transaction">{{ order.transaction_code }}</span>
+                </div>
+                <div class="order-status-wrap">
+                    <span class="order-meta__label">Status</span>
+                    {% with status=order.status|lower %}
+                    <span
+                        class="order-status {% if status == 'complete' or status == 'completed' or status == 'success' %}order-status--success{% elif status == 'pending' or status == 'processing' %}order-status--pending{% elif status == 'failed' or status == 'cancelled' or status == 'canceled' %}order-status--failed{% endif %}">
+                        <span class="order-status__dot" aria-hidden="true"></span>{{ order.status|title }}
+                    </span>
+                    {% endwith %}
+                </div>
+            </header>
+
+            <div class="order-items">
+                {% for item in order.items.all %}
+                <div class="order-item">
+                    <div class="order-item__image">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" loading="lazy">
+                        {% else %}
+                        <span class="material-icons" aria-hidden="true">inventory_2</span>
+                        {% endif %}
+                    </div>
+                    <div class="order-item__details">
+                        <h3>{{ item.product.name }}</h3>
+                        <p>Quantity <strong>{{ item.quantity }}</strong></p>
+                    </div>
+                    <div class="order-item__price">
+                        <span class="order-meta__label">Unit price</span>
+                        <span>{{ item.price }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="order-items-empty">No item details are available for this order.</p>
+                {% endfor %}
+            </div>
+
+            <footer class="order-panel__footer">
+                <span>{{ order.items.all|length }} item{{ order.items.all|length|pluralize }}</span>
+                <div class="order-total">
+                    <span>Total paid</span>
+                    <strong>{{ order.total_amount }}</strong>
+                </div>
+            </footer>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="orders-empty">
+        <span class="orders-empty__icon material-icons" aria-hidden="true">inventory_2</span>
+        <h2>No orders yet</h2>
+        <p>Your purchases will appear here once you place an order.</p>
+        <a href="/" class="orders-empty__link">Continue shopping <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    {% endif %}
+</section>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'js/eye.js' %}"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tooltipElements = document.querySelectorAll(
-            '[data-bs-toggle="tooltip"]'
-        );
-
-        tooltipElements.forEach(function (element) {
-            new bootstrap.Tooltip(element);
-        });
-    });
-</script>
 {% endblock %}

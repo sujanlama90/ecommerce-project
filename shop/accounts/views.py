@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .form import ProfileForm
 from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
+from payments.models import Order
 
 
 from .models import CustomUser
@@ -120,9 +121,11 @@ def profile(request):
     }
     return render(request,'profile/profile.html',context)
 
-
+@login_required(login_url='log_in')
 def myorder(request):
-    return render(request,'profile/my_order.html')
+    orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('-created_at')
+
+    return render(request,'profile/my_order.html',{'orders':orders})
 
 """================================================================================================================================================================================================
                                                                         Account verfiy
