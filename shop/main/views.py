@@ -69,6 +69,7 @@ def product_detail(request, id):
     reviews = product.reviews.all()
     av = reviews.aggregate(avg_rating=Avg('rating'))    # Get unique sizes available for this product
     related_product =Product.objects.filter(category=product.category).exclude(id=product.id)
+    
     sizes = (
         product.variants
         .values_list('size', flat=True)

@@ -44,9 +44,9 @@
             </div>
             <div class="card-body p-3 pt-0">
                 <h6 class="text-uppercase text-secondary text-xs font-weight-bolder">Total Orders</h6>
-                <h3 class="font-weight-bolder">24</h3>
+                <h3 class="font-weight-bolder">{{orders|length}}</h3>
                 <p class="mb-0 text-sm">
-                    <span class="text-success text-sm font-weight-bolder">+12%</span> than last month
+                    <span class="text-success text-sm font-weight-bolder">{{grow}}%</span> than last month
                 </p>
             </div>
         </div>
@@ -117,17 +117,19 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for i in orders %}
                             <tr>
-                                <td class="text-sm font-weight-normal">#MS-415646</td>
-                                <td class="text-sm font-weight-normal">12/02/2023</td>
+                                <td class="text-sm font-weight-normal">{{i.transaction_code}}</td>
+                                <td class="text-sm font-weight-normal">{{i.created_at}}</td>
                                 <td class="text-sm font-weight-normal">
-                                    <span class="badge bg-gradient-success">Completed</span>
+                                    <span class="badge bg-gradient-success">{{i.status}}</span>
                                 </td>
-                                <td class="text-sm font-weight-normal">$180</td>
+                                <td class="text-sm font-weight-normal">Rs {{i.total_amount}}</td>
                                 <td class="text-sm font-weight-normal">
                                     <a href="javascript:;" class="text-primary font-weight-bold">View</a>
                                 </td>
                             </tr>
+                            {% endfor %}
                             <!-- More order rows would go here -->
                         </tbody>
                     </table>
@@ -166,6 +168,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h3>Order Overview</h3>
+        <img src="{% static 'images/order.png' %}" alt="">
     </div>
 </div>
 {% endblock %}

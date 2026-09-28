@@ -57,7 +57,5 @@ def success_url(request):
 
     return render(request,'payments/success_esewa.html',{'txn':txn})
 
-
-
 def failure_url(request):
     return render(request,'payments/failure_esewa.html')

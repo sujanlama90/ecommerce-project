@@ -13,7 +13,10 @@ from .form import ProfileForm
 from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
 from payments.models import Order
-
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from datetime  import datetime,timedelta
 
 from .models import CustomUser
 # Create your views here.
@@ -96,7 +99,40 @@ def log_out(request):
 
 login_required(login_url='log_in')
 def profile_dashboard(request):
-    return render(request,'profile/dashboard.html')
+    orders = Order.objects.filter(user = request.user)
+    current = datetime.now()
+    current_month = current.month
+    last_month = (current-timedelta(days=30)).month
+    current_month_count = Order.objects.filter(created_at__month = current_month).count()
+    last_month_count = Order.objects.filter(created_at__month = last_month).count()
+
+    months =[
+        'jan','fab','mar',
+        'apr','may','jun',
+        'jul','aug','sep',
+        'oct','now','dec'
+    ]
+    
+    full_order =[]
+    for month in range(1,13):
+        full_order.append(Order.objects.filter(created_at__month = month).count())
+
+    plt.figure(figsize=(10,5))
+    plt.plot(months,full_order,marker="D",linestyle='dashdot')
+    plt.title('Order Overview')
+    plt.xlabel('Month')
+    plt.ylabel('Number of order')
+    plt.grid()
+    plt.savefig('accounts/static/images/order.png')
+    grow = 0
+    if last_month_count:
+        grow = (current_month_count-last_month_count/last_month_count)*100
+
+    contex = {
+        'orders':orders,
+        'grow':grow
+    }
+    return render(request,'profile/dashboard.html',contex)
 
 login_required(login_url='log_in')
 def profile(request):
@@ -123,7 +159,7 @@ def profile(request):
 
 @login_required(login_url='log_in')
 def myorder(request):
-    orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('created_at')
 
     return render(request,'profile/my_order.html',{'orders':orders})
 
