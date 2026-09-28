@@ -18,3 +18,5 @@ class Profile(models.Model):
     dob = models.DateField(null=True)
     bio = models.TextField()
     created_at = models.DateField(auto_now=True)
+
+

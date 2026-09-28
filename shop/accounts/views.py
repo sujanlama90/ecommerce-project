@@ -17,8 +17,9 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from datetime  import datetime,timedelta
-
+from main.models import Wishlist
 from .models import CustomUser
+from main.models import Product
 # Create your views here.
 
 class log_in(View):
@@ -162,6 +163,29 @@ def myorder(request):
     orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('created_at')
 
     return render(request,'profile/my_order.html',{'orders':orders})
+
+
+def add_wishlist(request,product_id):
+    product = get_object_or_404(Product,id = product_id)
+    Wishlist.objects.get_or_create(user = request.user,product=product)
+    return redirect(request.META.get('HTTP_REFERER', 'wishlist'))
+
+@login_required(login_url='log_in')
+def wishlist(request):
+    wishlist = Wishlist.objects.filter(user = request.user).select_related('product')
+    contex ={
+        'wishlists':wishlist
+    }
+    return render(request,'profile/wishlist.html',contex)
+
+@login_required(login_url='log_in')
+def remove_wishlist(request, product_id):
+    Wishlist.objects.filter(
+        user=request.user,
+        product_id=product_id
+    ).delete()
+
+    return redirect('wishlist')
 
 """================================================================================================================================================================================================
                                                                         Account verfiy

@@ -7,7 +7,9 @@
             {% endif %}
 
             <div class="product-actions">
-                <button class="action-btn"><i class="fas fa-heart"></i></button>
+                <a href="{% url 'add_wishlist' i.id %}"> <button class="action-btn"><i
+                            class="fas fa-heart"></i></button>
+                </a>
                 <a href="{% url 'product_detail' i.id %}"> <button class="action-btn"><i
                             class="fas fa-eye"></i></button>
                 </a>

@@ -182,8 +182,8 @@
                             <span class="cart-badge">{{request.session.cart|length}}</span>
                         </a>
 
-                        <a href="{% url 'index' %}#wishlist" class="icon-btn" aria-label="Wishlist">
-                            <i class="fas fa-heart"></i>
+                        <a href="{% url 'wishlist' %}#wishlist" class="icon-btn" aria-label="Wishlist">
+                            <i class="fas fa-heart"></i><span class="wishlist-badge">{{ wishlist_count }}</span>
                         </a>
 
                     </div>

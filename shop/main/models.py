@@ -30,6 +30,7 @@ class Category(models.Model):
     icon = models.CharField(max_length=200,default='fa fa-solid')
     def __str__(self):
             return self.title
+    
 
 class SubCategory(models.Model):
     title=models.CharField(max_length=200)
@@ -88,3 +89,12 @@ class Review(models.Model):
      rating = models.PositiveSmallIntegerField()
      feedback = models.TextField()
      created_at = models.DateField(auto_now=True)
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='items')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')

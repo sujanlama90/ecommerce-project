@@ -164,6 +164,8 @@ def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.add(product=product)
+
+    Wishlist.objects.filter(user=request.user,product=product).delete()
     return redirect("index")
 
 

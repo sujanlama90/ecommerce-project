@@ -14,6 +14,9 @@ urlpatterns = [
     path('profile_dashboard/',profile_dashboard,name='profile_dashboard'),
     path('profile/',profile,name='profile'),
     path("myorder/",myorder, name="myorder"),
+    path('wishlist/',wishlist,name='wishlist'),
+    path('wishlist_add/<int:product_id>/',add_wishlist,name='add_wishlist'),
+     path('wishlist_delete/<int:product_id>/',remove_wishlist,name='remove_wishlist'),
     # email verification
      path('send-verification-email/',send_verification_email,name='send_verification_email'),
     path('verify-email/<uuid:token>/', verify_email,name='verify_email'),

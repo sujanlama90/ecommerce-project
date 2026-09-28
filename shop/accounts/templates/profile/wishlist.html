@@ -1,0 +1,90 @@
+{% extends 'profile_dashboard.html' %}
+{% load static %}
+
+{% block title %}
+My wishlist
+{% endblock %}
+
+{% block page_title %}
+Wishlist
+{% endblock %}
+
+{% block page_subtitle %}
+Your saved pieces, all in one place
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+{% endblock css %}
+
+{% block maincontent %}
+<section class="wishlist-page" aria-labelledby="wishlist-heading">
+    <header class="wishlist-toolbar">
+        <div>
+            <p class="wishlist-eyebrow">YOUR COLLECTION</p>
+            <h1 id="wishlist-heading">Wishlist</h1>
+            <p class="wishlist-intro">Keep the things you love close by.</p>
+        </div>
+        <span class="wishlist-count"><i class="fas fa-heart" aria-hidden="true"></i> {{wishlists|length}} items</span>
+    </header>
+
+    {% if wishlists %}
+    <div class="wishlist-table-wrap">
+        <table class="wishlist-table">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Availability</th>
+                    <th scope="col" class="wishlist-action-heading">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for wishlist in wishlists %}
+
+                <tr>
+                    <td data-label="Product">
+                        <div class="wishlist-product">
+                            <span class="wishlist-product-image wishlist-product-image-tote">
+                                <img src="{{wishlist.product.image.url}}" height="45px" width="40px"
+                                    alt="{{wishlist.product.name}}">
+                            </span>
+                            <span class="wishlist-product-copy"><strong>{{wishlist.product.name}}</strong><small>Accessories
+                                    · Warm tan</small></span>
+                        </div>
+                    </td>
+                    <td data-label="Price" class="wishlist-price">RS {{wishlist.product.price}}</td>
+                    <td data-label="Availability"><span class="wishlist-stock"><i aria-hidden="true"></i>
+                            {% if wishlist.product.stock > 0 %}
+                            In stock
+                            {% else %}
+                            Out of stock
+
+                            {% endif %}
+
+                        </span></td>
+                    <td data-label="Action" class="wishlist-action-cell"><a
+                            href="{% url 'remove_wishlist' wishlist.product.id %}"><button class="wishlist-remove"
+                                type="button"><i class="far fa-trash-alt" aria-hidden="true"></i> Remove</button></a>
+                        <a href="{% url 'cart_add' wishlist.product.id %}"><button class="wishlist-remove"
+                                type="button"><i class="far fa-trash-alt" aria-hidden="true"></i> Add to
+                                cart</button></a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <section class="wishlist-empty" aria-labelledby="wishlist-empty-title">
+        <span class="wishlist-empty-icon" aria-hidden="true"><i class="fas fa-heart"></i></span>
+        <h2 id="wishlist-empty-title">Your wishlist is waiting</h2>
+        <p>Save the products you love and they’ll be easy to find here.</p>
+        <a class="wishlist-empty-link" href="{% url 'index' %}">
+            Explore products <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}
