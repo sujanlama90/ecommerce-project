@@ -87,25 +87,25 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'index' %}"><i
                                             class="fas fa-th me-2 text-muted"></i>All Products</a></li>
-                                <li><a class="dropdown-item" href="{% url 'index' %}#categories"><i
+                                <!-- <li><a class="dropdown-item" href="{% url 'index' %}#categories"><i
                                             class="fas fa-tags me-2 text-muted"></i>Categories</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="{% url 'cart_detail' %}"><i
-                                            class="fas fa-shopping-cart me-2 text-muted"></i>Cart</a></li>
-                            </ul>
+                                <li> -->
+                                <hr class="dropdown-divider">
                         </li>
-                        <li class="nav-item "><a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
-                                href="{% url 'about' %}#about">About</a></li>
-                        <li class="nav-item "><a class="nav-link {% if request.path == '/contact/' %}active{% endif %}"
-                                href="{% url 'contact' %}#contact">Contact</a></li>
+                        <li><a class="dropdown-item" href="{% url 'cart_detail' %}"><i
+                                    class="fas fa-shopping-cart me-2 text-muted"></i>Cart</a></li>
+                    </ul>
+                    </li>
+                    <li class="nav-item "><a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
+                            href="{% url 'about' %}#about">About</a></li>
+                    <li class="nav-item "><a class="nav-link {% if request.path == '/contact/' %}active{% endif %}"
+                            href="{% url 'contact' %}#contact">Contact</a></li>
                     </ul>
 
                     <form class="nav-search d-flex me-lg-3" role="search" method="get" action="{% url 'index' %}">
                         <label class="visually-hidden" for="product-search">Search products</label>
                         <input id="product-search" class="form-control" name="q" type="search"
-                            placeholder="Search products...">
+                            placeholder="Search products..." value="{{ request.GET.q }}">
                         <button class="btn-search" type="submit" aria-label="Search products"><i
                                 class="fas fa-search"></i></button>
                     </form>
@@ -218,7 +218,7 @@
                             <div class="cta-icon"><i class="fas fa-phone"></i></div>
                             <div>
                                 <h5>Call Us</h5>
-                                <p>+977 9816107823</p>
+                                <p>+977 9709593901</p>
                             </div>
                         </div>
                     </div>
@@ -250,10 +250,10 @@
                         <h4 class="footer-heading">Company</h4>
                         <ul class="footer-links">
                             <li><a href="{% url 'index' %}">Home</a></li>
-                            <li><a href="{% url 'index' %}#about">About Us</a></li>
+                            <li><a href="{% url 'about' %}#about">About Us</a></li>
                             <li><a href="#">Blog</a></li>
                             <li><a href="#">Careers</a></li>
-                            <li><a href="{% url 'index' %}#contact">Contact</a></li>
+                            <li><a href="{% url 'contact' %}#contact">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-lg-2">

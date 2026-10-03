@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from cloudinary.models import CloudinaryField
 from django_ckeditor_5.fields import CKEditor5Field
 from datetime import timedelta
@@ -24,6 +25,30 @@ class OfferProduct(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class FlashSale(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='flash_sales',
+    )
+    starts_at = models.DateTimeField()
+    ends_at = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('ends_at',)
+
+    def clean(self):
+        if self.starts_at and self.ends_at and self.ends_at <= self.starts_at:
+            raise ValidationError({'ends_at': 'End time must be after start time.'})
+
+    def __str__(self):
+        return self.title
+
 
 class Category(models.Model):
     title=models.CharField(max_length=200)

@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from .models import *
-from django.db.models import Count,Prefetch,Avg
+from django.db.models import Count,Prefetch,Avg,Q
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.utils import timezone
 from .form import ReviewForm
 from cart.cart import Cart
 import hashlib
@@ -11,13 +12,23 @@ import uuid
 import base64
 import json
 import hmac
+from .utils import recommend_products_collab 
 # Create your views here.
 def index(request):
     offer = OfferProduct.objects.filter(is_available=True)
+    flash_sale = FlashSale.objects.filter(
+        is_active=True,
+        starts_at__lte=timezone.now(),
+        ends_at__gt=timezone.now(),
+        product__discount_percent__gt=0,
+        product__stock__gt=0,
+    ).select_related('product').first()
     category = Category.objects.annotate(sub_count=Count('subcategory')).prefetch_related(Prefetch('subcategory_set',\
             queryset=SubCategory.objects.annotate(product_count=Count('product'))))
 
     subid = request.GET.get('subcategory')
+    category_id = request.GET.get('category')
+    search_query = request.GET.get('q', '').strip()
     min = request.GET.get('min')
     max = request.GET.get('max')
 
@@ -25,20 +36,46 @@ def index(request):
         product = Product.objects.filter(subcategory=subid, price__range =(min,max))
     elif subid:
         product = Product.objects.filter(subcategory=subid)
+    elif category_id and min and max:
+        product = Product.objects.filter(category=category_id, price__range=(min,max))
+    elif category_id:
+        product = Product.objects.filter(category=category_id)
     else:
       product = Product.objects.all()
+
+    if search_query:
+        product = product.filter(
+            Q(name__icontains=search_query)
+            | Q(desc__icontains=search_query)
+            | Q(category__title__icontains=search_query)
+            | Q(subcategory__title__icontains=search_query)
+        )
+
+    pagination_params = request.GET.copy()
+    pagination_params.pop('page', None)
 
     paginator = Paginator(product,6)
     page_n = request.GET.get('page')
     data =paginator.get_page(page_n)
     total = data.paginator.num_pages
 
+    #recommendation 
+    recommended =[]
+    if request.user.is_authenticated:
+        recommended=recommend_products_collab(request.user.id,top_n=4)
+    else:
+        recommended = Product.objects.annotate(review_rating = Avg('reviews__rating')).order_by("-review_rating")[:3]
+
     context={
         'offer' :offer,
+        'flash_sale': flash_sale,
         'category': category,
         "product" : product,
         'data':data,
-        'num':[i+1 for i in range(total)]
+        'num':[i+1 for i in range(total)],
+        'recommended':recommended,
+        'search_query': search_query,
+        'pagination_query': pagination_params.urlencode()
     }
     if request.headers.get('HX-Request'):
         return render(request,'main/product.html',context)
@@ -69,19 +106,6 @@ def product_detail(request, id):
     reviews = product.reviews.all()
     av = reviews.aggregate(avg_rating=Avg('rating'))    # Get unique sizes available for this product
     related_product =Product.objects.filter(category=product.category).exclude(id=product.id)
-    
-    sizes = (
-        product.variants
-        .values_list('size', flat=True)
-        .distinct()
-    )
-
-    # Get unique colors available for this product
-    colors = (
-        product.variants
-        .values_list('color', flat=True)
-        .distinct()
-    )
 
     form = ReviewForm()
     if request.method == 'POST':
@@ -95,8 +119,6 @@ def product_detail(request, id):
 
     context = {
         'product': product,
-        'sizes': sizes,
-        'colors': colors,
         'form':form,
         'reviews':reviews,
         'range':range(1,6),

@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile_dashboard/',profile_dashboard,name='profile_dashboard'),
     path('profile/',profile,name='profile'),
     path("myorder/",myorder, name="myorder"),
+    path('myorder/<int:order_id>/remove/', remove_order, name='remove_order'),
     path('wishlist/',wishlist,name='wishlist'),
     path('wishlist_add/<int:product_id>/',add_wishlist,name='add_wishlist'),
      path('wishlist_delete/<int:product_id>/',remove_wishlist,name='remove_wishlist'),

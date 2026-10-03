@@ -73,15 +73,13 @@
         <div class="card h-100">
             <div class="card-header p-3 pt-2 bg-gradient-info shadow-info border-radius-lg">
                 <div class="icon icon-lg icon-shape text-center shadow">
-                    <i class="material-icons opacity-10">local_offer</i>
+                    <i class="material-icons opacity-10">shopping_bag</i>
                 </div>
             </div>
             <div class="card-body p-3 pt-0">
-                <h6 class="text-uppercase text-secondary text-xs font-weight-bolder">Active Coupons</h6>
-                <h3 class="font-weight-bolder">2</h3>
-                <p class="mb-0 text-sm">
-                    <span class="text-danger text-sm font-weight-bolder">1</span> expiring soon
-                </p>
+                <h6 class="text-uppercase text-secondary text-xs font-weight-bolder">Items Purchased</h6>
+                <h3 class="font-weight-bolder">{{ items_purchased }}</h3>
+                <p class="mb-0 text-sm">Across all orders</p>
             </div>
         </div>
     </div>
@@ -95,7 +93,7 @@
                         <h6 class="mb-0">Recent Orders</h6>
                     </div>
                     <div class="col-6 text-end">
-                        <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
+                        <a href="{% url 'myorder' %}" class="btn btn-outline-primary btn-sm mb-0">View All</a>
                     </div>
                 </div>
             </div>
@@ -104,7 +102,8 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Name
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order
+                                    Name
                                 </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                     Date</th>
@@ -127,7 +126,8 @@
                                 </td>
                                 <td class="text-sm font-weight-normal">Rs {{i.total_amount}}</td>
                                 <td class="text-sm font-weight-normal">
-                                    <a href="javascript:;" class="text-primary font-weight-bold">View</a>
+                                    <a href="{% url 'myorder' %}#order-{{ i.id }}"
+                                        class="text-primary font-weight-bold">View</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -148,25 +148,30 @@
             </div>
             <div class="card-body p-3">
                 <div class="timeline timeline-one-side">
+                    {% for activity in recent_activities %}
                     <div class="timeline-block mb-3">
                         <span class="timeline-step">
+                            {% if activity.type == 'order' %}
                             <i class="material-icons text-success text-gradient">shopping_cart</i>
-                        </span>
-                        <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">New order #MS-415646</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block mb-3">
-                        <span class="timeline-step">
+                            {% else %}
                             <i class="material-icons text-danger text-gradient">favorite</i>
+                            {% endif %}
                         </span>
                         <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">Added to wishlist</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11:05 PM</p>
+                            {% if activity.type == 'order' %}
+                            <h6 class="text-dark text-sm font-weight-bold mb-0">New order
+                                #{{activity.order.transaction_code }}</h6>
+                            {% else %}
+                            <h6 class="text-dark text-sm font-weight-bold mb-0">Added
+                                {{ activity.wishlist.product.name}} to wishlist</h6>
+                            {% endif %}
+                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                {{ activity.created_at|date:"d M g:i A" }}</p>
                         </div>
                     </div>
-                    <!-- More activity items would go here -->
+                    {% empty %}
+                    <p class="text-secondary text-sm mb-0">No recent activity.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>

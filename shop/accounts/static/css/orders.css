@@ -249,6 +249,20 @@
     font-size: 16px;
 }
 
+.order-remove {
+    padding: 8px 11px;
+    border: 1px solid var(--orders-red);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--orders-red);
+    font: inherit;
+    cursor: pointer;
+}
+
+.order-remove:hover {
+    background: var(--orders-red-soft);
+}
+
 .orders-empty {
     display: grid;
     justify-items: center;

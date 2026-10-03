@@ -5,6 +5,7 @@ from django.utils.html import strip_tags, format_html
 from .models import (
     Contact,
     OfferProduct,
+    FlashSale,
     Category,
     SubCategory,
     Product,
@@ -18,6 +19,13 @@ admin.site.site_title = "Sajilo Cart"
 
 
 admin.site.register(OfferProduct)
+@admin.register(FlashSale)
+class FlashSaleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'product', 'starts_at', 'ends_at', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('title', 'product__name')
+
+
 admin.site.register(SubCategory)
 admin.site.register(Category)
 admin.site.register(Contact)

@@ -162,115 +162,12 @@
                         <!-- ADD TO CART FORM -->
                         <!-- ================================================= -->
 
-                        <form method="POST" action="" id="cart-form">
-
-                            {% csrf_token %}
-
-
-                            <!-- ================= SIZE & COLOR ================= -->
-
-                            <div class="option-grid">
-
-
-                                <!-- SIZE -->
-
-                                <div class="field-group">
-
-                                    <label for="size">
-                                        Size
-                                    </label>
-
-                                    <select id="size" name="size" class="form-select" required>
-
-                                        <option value="">
-                                            Select Size
-                                        </option>
-
-                                        {% for size in sizes %}
-
-                                        <option value="{{ size }}">
-                                            {{ size }}
-                                        </option>
-
-                                        {% endfor %}
-
-                                    </select>
-
-                                </div>
-
-
-                                <!-- COLOR -->
-
-                                <div class="field-group">
-
-                                    <label for="color">
-                                        Color
-                                    </label>
-
-                                    <select id="color" name="color" class="form-select" required>
-
-                                        <option value="">
-                                            Select Color
-                                        </option>
-
-                                        {% for color in colors %}
-
-                                        <option value="{{ color }}">
-                                            {{ color }}
-                                        </option>
-
-                                        {% endfor %}
-
-                                    </select>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- ================= VARIANT MESSAGE ================= -->
-
-                            <div id="variant-message" class="mt-2" style="display:none;">
-                            </div>
-
-
-                            <!-- ================= QUANTITY + CART ================= -->
-
-                            <div class="purchase-row">
-
-
-                                <!-- Quantity -->
-
-                                <div class="quantity-box">
-
-                                    <button type="button" class="qtyminus">
-                                        -
-                                    </button>
-
-
-                                    <input type="text" name="quantity" value="1" class="qty" readonly>
-
-
-                                    <button type="button" class="qtyplus">
-                                        +
-                                    </button>
-
-                                </div>
-
-
-                                <!-- Add To Cart -->
-
-                                <button type="submit" class="primary-btn flex-grow-1" id="add-cart-btn">
-
-                                    <i class="fa-solid fa-cart-shopping"></i>
-
-                                    Add to Cart
-
-                                </button>
-
-                            </div>
-
-                        </form>
+                        <div class="purchase-row">
+                            <a href="{% url 'cart_add' product.id %}" class="primary-btn flex-grow-1" id="add-cart-btn">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                Add to Cart
+                            </a>
+                        </div>
 
 
                         <!-- ================= TRUST POINTS ================= -->

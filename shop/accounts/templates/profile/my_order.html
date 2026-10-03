@@ -34,7 +34,7 @@ Track your recent purchases
     {% if orders %}
     <div class="orders-list">
         {% for order in orders %}
-        <article class="order-panel">
+        <article class="order-panel" id="order-{{ order.id }}">
             <header class="order-panel__header">
                 <div class="order-reference">
                     <span class="order-reference__label">Order</span>
@@ -89,6 +89,11 @@ Track your recent purchases
                     <span>Total paid</span>
                     <strong>{{ order.total_amount }}</strong>
                 </div>
+                <form method="post" action="{% url 'remove_order' order.id %}"
+                    onsubmit="return confirm('Remove this order and its item details? This cannot be undone.');">
+                    {% csrf_token %}
+                    <button class="order-remove" type="submit">Remove order</button>
+                </form>
             </footer>
         </article>
         {% endfor %}

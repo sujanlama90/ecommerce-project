@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.db.models import Sum
 from accounts.models import CustomUser,Profile
 from django.views import View
 from django.contrib.auth.password_validation import validate_password
@@ -9,10 +10,11 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from .form import ProfileForm
 from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
-from payments.models import Order
+from payments.models import Order, OrderItem
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -101,6 +103,28 @@ def log_out(request):
 login_required(login_url='log_in')
 def profile_dashboard(request):
     orders = Order.objects.filter(user = request.user)
+    items_purchased = OrderItem.objects.filter(order__user=request.user).aggregate(
+        total=Sum('quantity')
+    )['total'] or 0
+    recent_activities = [
+        {
+            'type': 'order',
+            'order': order,
+            'created_at': order.created_at,
+        }
+        for order in orders.order_by('-created_at')[:5]
+    ]
+    recent_activities.extend(
+        {
+            'type': 'wishlist',
+            'wishlist': wishlist,
+            'created_at': wishlist.created_at,
+        }
+        for wishlist in Wishlist.objects.filter(user=request.user)
+        .select_related('product')
+        .order_by('-created_at')[:5]
+    )
+    recent_activities.sort(key=lambda activity: activity['created_at'], reverse=True)
     current = datetime.now()
     current_month = current.month
     last_month = (current-timedelta(days=30)).month
@@ -131,7 +155,9 @@ def profile_dashboard(request):
 
     contex = {
         'orders':orders,
-        'grow':grow
+        'grow':grow,
+        'recent_activities':recent_activities[:5],
+        'items_purchased':items_purchased,
     }
     return render(request,'profile/dashboard.html',contex)
 
@@ -163,6 +189,14 @@ def myorder(request):
     orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('created_at')
 
     return render(request,'profile/my_order.html',{'orders':orders})
+
+
+@login_required(login_url='log_in')
+@require_POST
+def remove_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order.delete()
+    return redirect('myorder')
 
 
 def add_wishlist(request,product_id):
