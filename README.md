@@ -1,161 +1,163 @@
 # E-Commerce Store
 
-A Django-based e-commerce web application for browsing products, filtering by category, adding items to a cart, registering/login users, managing profiles, and contacting the store.
+A modern Django-based e-commerce application for browsing products, managing a cart, creating user accounts, handling profile settings, and contacting the store.
 
-This project is built with Django and includes social authentication, Cloudinary media storage, CKEditor for product descriptions, and a session-based shopping cart.
+This project includes category-based product browsing, custom user authentication, social login support, media uploads through Cloudinary, rich product descriptions with CKEditor, and an admin dashboard enhanced with Jazzmin.
 
 ## Features
 
-- Product listing with category and subcategory filtering
-- Offer banner section on the homepage
-- Product detail page with reviews and ratings
-- Session-based cart management
-- User registration and login
-- Password reset flow
-- Google sign-in support via social authentication
-- Profile management for users
-- Contact form and about page
-- Admin dashboard via Django admin and Jazzmin
+- Product catalog with category and subcategory filtering
+- Featured homepage offers and promotional sections
+- Product detail pages with reviews and ratings
+- Session-based shopping cart
+- User registration, login, logout, and password reset flow
+- Profile management and dashboard features
+- Social authentication with Google sign-in
+- Contact form and store information pages
+- Admin management with Django admin and Jazzmin
+- Cloudinary media handling for product and profile images
 
 ## Tech Stack
 
 - Python 3.x
 - Django 6.1
-- SQLite database
+- PostgreSQL
 - Bootstrap-based frontend templates
-- Cloudinary for media uploads
-- django-ckeditor-5 for rich text product descriptions
-- Django allauth + social-auth-app-django
+- Cloudinary for media storage
+- django-ckeditor-5 for rich text editing
+- django-allauth and social-auth-app-django
 - django-jazzmin for admin UI
+- python-decouple for environment configuration
 
-## Project Flow
+## Project Overview
 
-### Customer Journey
+The application is structured as a typical Django storefront with separate apps for storefront logic, user accounts, payments, and cart handling.
 
-```mermaid
-flowchart TD
-    A[Open Store Homepage] --> B[Browse categories / offers / products]
-    B --> C{Filter or search by subcategory}
-    C --> D[View Product Details]
-    D --> E[Add to Cart]
-    E --> F[Open Cart]
-    F --> G{Login required?}
-    G -- Yes --> H[Login / Register]
-    H --> I[Continue shopping or view profile]
-    G -- No --> I
-    I --> J[Manage profile / reset password]
-    J --> K[Contact seller]
-```
+### User Journey
 
-### App Flow Summary
-
-1. User visits the homepage and sees featured offers and product listings.
-2. They can filter categories and subcategories to narrow the product list.
-3. Clicking a product opens the product detail page where they can see description, variants, related products, and reviews.
-4. Products can be added to the cart using session-based cart logic.
-5. Logged-in users can manage profile settings, update password, and access dashboard features.
-6. Users can contact the store through the contact form.
-7. Admin users can manage categories, products, offers, reviews, and contacts from the Django admin panel.
+1. A customer visits the homepage and browses featured products and categories.
+2. They filter or explore subcategories to narrow results.
+3. They open a product page to view details, variants, and reviews.
+4. They add items to the cart and proceed to checkout-related flows.
+5. Registered users can manage their profile, update settings, and reset their password.
+6. Admin users can manage products, categories, offers, reviews, and contacts from the admin panel.
 
 ## Project Structure
 
 ```text
 .
 ├── LICENSE
+├── README.md
 ├── shop/
 │   ├── manage.py
 │   ├── requirements.txt
 │   ├── db.sqlite3
 │   ├── accounts/
+│   │   ├── admin.py
+│   │   ├── forms.py
 │   │   ├── models.py
-│   │   ├── views.py
+│   │   ├── pipeline.py
 │   │   ├── urls.py
-│   │   ├── form.py
-│   │   └── pipeline.py
+│   │   └── views.py
 │   ├── main/
+│   │   ├── admin.py
 │   │   ├── models.py
-│   │   ├── views.py
 │   │   ├── urls.py
-│   │   ├── form.py
+│   │   ├── views.py
 │   │   └── templates/
+│   ├── payments/
+│   │   ├── models.py
+│   │   ├── urls.py
+│   │   └── views.py
 │   ├── shop/
 │   │   ├── settings.py
 │   │   ├── urls.py
-│   │   └── wsgi.py
+│   │   ├── wsgi.py
+│   │   └── asgi.py
 │   ├── static/
 │   ├── templates/
 │   └── media/
-└── README.md
+└── venv/
 ```
 
-## Main Modules
+## Main Applications
 
-### 1. `main` app
+### `main`
 
-Handles storefront features such as:
+Handles the storefront experience, including:
 
 - homepage
-- product listing
-- category filtering
-- product detail
-- cart actions
-- contact page
-- about page
+- product listings
+- category and subcategory filtering
+- product detail pages
+- cart interactions
+- contact form and about page
 
-Key routes:
+### `accounts`
 
-- `/` — home page
-- `/contact/` — contact page
-- `/about/` — about page
-- `/product_detail/<id>/` — product details
-- `/cart/cart-detail/` — cart summary
+Responsible for authentication and account management:
 
-### 2. `accounts` app
+- registration and login
+- logout and session handling
+- password reset flow
+- profile updates and dashboard
+- Google social login integration
 
-Handles authentication and user management:
+### `payments`
 
-- registration
-- login/logout
-- password reset
-- profile dashboard
-- profile updates
-- social login integration
+Contains order and checkout-related logic, including:
 
-Key routes:
+- order models
+- item tracking
+- payment flow integration points
 
-- `/account/log_in/` — login
-- `/account/register/` — registration
-- `/account/profile/` — profile settings
-- `/account/profile_dashboard/` — dashboard
-- `/account/password_reset/` — password reset
+## Prerequisites
 
-## Environment Variables
+Before running the project, make sure you have:
 
-Create a `.env` file in the project root (inside the `shop` folder depending on your setup) with values similar to the following:
+- Python 3.10+ installed
+- PostgreSQL installed and running locally or remotely
+- A virtual environment tool such as `venv`
+- Access to a Gmail account for email sending, if using the default SMTP config
+- Cloudinary credentials for media uploads
+- Google OAuth credentials for social login
+
+## Environment Configuration
+
+Create a `.env` file in the project root or inside the `shop/` folder, depending on your local setup. Use the following variables:
 
 ```env
 SECRET_KEY=your-secret-key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
+
+DB_NAME=ecommerce
+DB_USER=postgres
+DB_PASSWORD=your_postgres_password
+DB_HOST=localhost
+DB_PORT=5432
+
 EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
+
 cloud_name=your-cloudinary-cloud-name
 api_key=your-cloudinary-api-key
 api_secret=your-cloudinary-api-secret
 secure=True
+
 SOCIAL_AUTH_URL_NAMESPACE=social
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=your-google-client-id
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=your-google-client-secret
 ```
 
-> The app loads these values from `python-decouple` in the Django settings file.
+> This project reads environment variables using `python-decouple` in the Django settings configuration.
 
 ## Installation
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/sujanlama90/ecommerce-project.git
+git clone https://github.com/your-username/e-commerce.git
 cd e-commerce
 ```
 
@@ -166,13 +168,13 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. Install dependencies:
+3. Install project dependencies:
 
 ```bash
 pip install -r shop/requirements.txt
 ```
 
-4. Create your `.env` file and add the required settings.
+4. Create the PostgreSQL database and ensure your database credentials match the values in `.env`.
 
 5. Run database migrations:
 
@@ -195,7 +197,7 @@ http://127.0.0.1:8000/
 
 ## Admin Access
 
-Create a superuser to access the admin dashboard:
+Create a superuser to access the Django admin panel:
 
 ```bash
 python manage.py createsuperuser
@@ -207,61 +209,24 @@ Then open:
 http://127.0.0.1:8000/admin/
 ```
 
-## How the Application Works
+## Running the Project
 
-### Homepage
+After setup, you can:
 
-The homepage loads products and categories from the database and shows:
+- browse the storefront at the homepage
+- register an account and log in
+- update profile information
+- add products to the cart
+- manage orders and payment-related features through the configured UI
+- use the admin panel to manage products, offers, and content
 
-- featured offers
-- category blocks
-- product card grid
-- filter options by subcategory and price range
+## Notes
 
-### Product Detail
-
-The product detail page displays:
-
-- product image and description
-- price and discount details
-- size and color variants
-- reviews and rating summary
-- related products
-
-### Cart
-
-Cart items are managed in the session and can be:
-
-- added
-- removed
-- incremented
-- decremented
-- cleared
-
-### User Accounts
-
-Users can:
-
-- register a new account
-- log in and stay signed in depending on the remember-me option
-- update their profile
-- change their password
-- reset password using email-based recovery
-
-## Future Enhancements
-
-- Checkout and order placement flow
-- Payment integration
-- Wishlist and saved items
-- Coupon and discount system
-- Admin product analytics
-- Inventory management dashboard
-- Search by product name and tags
+- The application is configured for local development with environment variables.
+- Cloudinary is required for media uploads in the default setup.
+- Social login and email features require valid API credentials.
+- If you are deploying to production, review the Django security settings and replace the default local configuration with your production environment values.
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Notes
-
-This project is a solid Django storefront foundation and is especially suitable for learning e-commerce architecture, Django ORM, session cart logic, and custom user authentication.
