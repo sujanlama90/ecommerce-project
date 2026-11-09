@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from decouple import config
 import cloudinary
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,11 +12,20 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
+# ALLOWED_HOSTS = config(
+#     'ALLOWED_HOSTS',
+#     default='localhost,127.0.0.1',
+# ).split(',')
+
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
     default='localhost,127.0.0.1',
 ).split(',')
 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +55,7 @@ INSTALLED_APPS.extend(EXTERNAL_APPS)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,17 +132,23 @@ AUTH_USER_MODEL='accounts.CustomUser'
 # }
 
 #pg db
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config("DB_NAME"),
+#         "USER": config("DB_USER"),
+#         "PASSWORD": config("DB_PASSWORD"),
+#         "HOST": config("DB_HOST"),
+#         "PORT": config("DB_PORT"),
+#     }
+# }
 
+DATABASES = {
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
@@ -167,11 +184,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
-j=[
-    os.path.join(BASE_DIR,'static')
+# j=[
+#     os.path.join(BASE_DIR,'static')
+# ]
+# STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
+# MEDIA_ROOT=os.path.join('media')
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
 ]
-STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
-MEDIA_ROOT=os.path.join('media')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL='/media/'
 
 # Email
@@ -401,4 +422,8 @@ JAZZMIN_SETTINGS = {
     # Enable Jazzmin UI builder
     "show_ui_builder": True,
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{RENDER_EXTERNAL_HOSTNAME}"
+] if RENDER_EXTERNAL_HOSTNAME else []
 
